@@ -14,41 +14,41 @@
        <v-card-title>Business in Bots</v-card-title>
     </v-img>
     </v-card>
-        <v-list nav>
+        <v-list nav dense>
             <v-subheader>Sections</v-subheader>
           <v-list-group
             prepend-icon="mdi-google-my-business"
           >
             <template v-slot:activator>
-                <v-list-item-title>Business</v-list-item-title>
+                <v-list-item-title >Businesses</v-list-item-title>
             </template>
             <v-list-item-group>
-                <v-list-item v-for="prod in product_categories" :key="prod.name">
-                <v-list-item-icon>
-                    <v-icon>{{prod.icon}}</v-icon>
-                </v-list-item-icon>
-                <v-list-content class="text-capitalize caption">{{prod.name}}</v-list-content>
+                    <v-list-item >
+                <v-list-item-content class="text-capitalize caption">all</v-list-item-content>
+            </v-list-item>
+                <v-list-item v-for="category in get_businessCategory" :key="category.name">
+                <v-list-item-content class="text-capitalize caption">{{category.name}}</v-list-item-content>
             </v-list-item>
             </v-list-item-group>
 
           </v-list-group>
         </v-list>
-        <v-list nav>
+        <v-list dense nav>
             
             <v-list-group
                 no-action
-                prepend-icon="mdi-tag-multiple"
+                prepend-icon="mdi-group"
                 value=""
             >
             <template v-slot:activator>
-                <v-list-item-title>Products</v-list-item-title>
+                <v-list-item-title to="/Products/list">Products groups</v-list-item-title>
             </template>
             <v-list-item-group>
-                <v-list-item v-for="prod in product_categories" :key="prod.name">
+                <v-list-item v-for="prod in get_productCategory" :key="prod.name">
                 <v-list-item-icon>
-                    <v-icon>{{prod.icon}}</v-icon>
+                    <v-icon>mdi-ungroup</v-icon>
                 </v-list-item-icon>
-                <v-list-content class="text-capitalize caption">{{prod.name}}</v-list-content>
+                <v-list-item-content class="text-capitalize caption">{{prod.name}}</v-list-item-content>
             </v-list-item>
             </v-list-item-group>
 
@@ -57,6 +57,7 @@
     </v-container>
 </template>
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
     data:()=>({
         product_categories:[
@@ -69,6 +70,14 @@ export default {
             {"icon":"mdi-clock","name":"Car dealing"},
             {"icon":"mdi-clock","name":"Building"}
         ]
-    })
+    }),
+    methods:{
+        ...mapActions(['getBusinessCategory','getProductCategory'])
+    },
+    computed:mapGetters(['get_businessCategory','get_productCategory']),
+    mounted(){
+        this.getBusinessCategory();
+        this.getProductCategory();
+    }
 }
 </script>

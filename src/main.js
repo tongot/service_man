@@ -3,8 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import axios from 'axios'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+axios.defaults.baseURL="http://localhost:8081";
+axios.defaults.headers.common['Authorization'] = 'Token '+localStorage.getItem('action')
 
 new Vue({
   router,
@@ -12,3 +15,4 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+    
