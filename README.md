@@ -1,4 +1,4 @@
-# service_man
+# service_man is an e-commerce front end for sales and ordering online
 
 ## Project setup
 ```
