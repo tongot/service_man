@@ -27,6 +27,25 @@ const actions={
             return response 
         }
     },
+    // make order as seen 
+    async setOrderAsViewed({commit},order){
+        commit('set_orders_viewed',order.index)
+        let response
+        try{
+            response= await axios.get('/business_api/orders-own/orderViewed/?businessId='+order.businessId+'&orderId='+order.id)
+        }catch
+        {
+            response=null
+        }
+        try{
+            commit('set_orders_viewed',order.index)
+            return await response;
+        }
+        catch(e){
+            return response 
+        }
+    },
+
     //post order
     async postOrder({commit},order)
     {
@@ -71,7 +90,9 @@ const mutations={
         state.order.customer = user.id
 ),
     set_order_processed:(state,data)=>state.orderProcessed= data,
-    set_orders:(state,data)=>state.orders = data
+    set_orders:(state,data)=>state.orders = data,
+    set_orders_viewed:(state,data)=>state.orders[data].viewed=true
+
 }
 export default{
     state,

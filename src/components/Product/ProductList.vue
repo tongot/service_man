@@ -18,6 +18,8 @@
     prepend-inner-icon="mdi-magnify"
     class="mt-6"
     placeholder="search"
+    v-model="search"
+    @keyup="searching()"
     >
     </v-text-field>
 
@@ -105,7 +107,7 @@
  </v-expansion-panels>
 <v-row class="justify-space-around">
 
- <v-tooltip top  v-for="product in get_view_products" :key="product.id">
+ <v-tooltip top  v-for="product in get_view_products.results" :key="product.id">
    <template v-slot:activator="{ on }" >
       <v-card
     width="250"
@@ -201,6 +203,14 @@
  </v-tooltip>
   
 </v-row>
+<v-row justify="center">
+   <v-pagination
+              v-model="page"
+              @input="getPage()"
+              class="my-4"
+              :length="getPageLength"
+            ></v-pagination>
+</v-row>
   </v-container>
 </template>
 <script>
@@ -209,12 +219,20 @@ import {GetCoverImage} from '../../scripts/otherScripts'
 export default {
   data:()=>({
         dialog:false,
+        page:1,
+        search:''
   }),
   methods:{
     ...mapActions(['getViewProducts','openMessageDialog','getBusinessById','notify']),
     getCover(images)
     {
-        return GetCoverImage(images)
+         if(images.length>0)
+                {
+                     return GetCoverImage(images)    
+                }else
+                {
+                    return require('../../assets/dummy/productDummy.png')
+                }
     },
     contactSeller(businessId,productId){
       this.notify({text:"Requesting contact, please wait...",color:"warning",open:true})
@@ -222,12 +240,33 @@ export default {
                     this.openMessageDialog(productId);
                    this.notify({open:false})
             }) 
+    },
+    getPage(){
+      this.getViewProducts({number:this.page,search:this.search})
+    },
+    searching()
+    {
+      if(this.search.length>=3)
+      {
+        this.page=1
+        this.getViewProducts({number:this.page,search:this.search})
+      }
+      if(this.search==='')
+      {
+        this.page=1
+        this.getViewProducts({number:this.page,search:this.search})
+      }
+   
     }
-    
   },
-  computed:mapGetters(['get_view_products']),
+  computed:{
+    ...mapGetters(['get_view_products']),
+      getPageLength(){
+        return Math.ceil(this.get_view_products.count/10)
+      }
+    },
   created(){
-    this.getViewProducts()
+    this.getViewProducts({number:this.page,search:this.search})
   },
   mounted(){
     

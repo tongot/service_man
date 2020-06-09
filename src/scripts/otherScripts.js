@@ -4,6 +4,11 @@
         return images[0].image;
     }
  }
+ const formartDate=(date)=>{
+     var newDate = new Date(date)
+     return newDate.getDate()+"/"+newDate.getMonth()+"/"+newDate.getFullYear()+" "+newDate.getHours()+":"+newDate.getMinutes();
+ }
  export {
-     GetCoverImage
+     GetCoverImage,
+     formartDate
  }

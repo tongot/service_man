@@ -14,13 +14,12 @@
              <v-btn icon :to="{name:'my-business'}">
                 <v-icon>mdi-close-circle</v-icon>
             </v-btn>
-            
         </v-toolbar>
 
-        <v-row>
+        <v-row class="mx-2 mt-2">
                 <v-card width="300" max-height="420" class="ma-1"  v-for="product in get_products" :key="product.id">
 
-                    <v-img witdth="300" class="white--text align-end" :src="getProductCover(product.product_images)">
+                    <v-img witdth="300" class="white--text align-end" alt="../../assests/dummy/productDummy.png" :src="getProductCover(product.product_images)">
                                <v-chip class="ma-2" color="yellow darken-3" text-color="white"> Qnt: {{product.quantity}}
                         </v-chip>
                         <v-chip class="ma-2" color="indigo" text-color="white">
@@ -58,7 +57,13 @@ import {GetCoverImage} from '../../scripts/otherScripts'
         methods: {
             ...mapActions(['getBusinessProduct']),
             getProductCover(product_images) {
-             return GetCoverImage(product_images)
+                if(product_images.length>0)
+                {
+                     return GetCoverImage(product_images)    
+                }else
+                {
+                    return require('../../assets/dummy/productDummy.png')
+                }
             }
         },
         created() {

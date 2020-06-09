@@ -8,10 +8,10 @@ const getters={
     get_view_product:(state)=>state.product
 }
 const actions={
-    async getViewProducts({commit})
+    async getViewProducts({commit},page)
     {
         try {
-            const response = await axios.get('/business_api/product/')
+            const response = await axios.get('/business_api/product/?page='+page.number+'&search='+page.search)
             if(response.status=="200")
             {
                 commit('set_view_products',response.data)
