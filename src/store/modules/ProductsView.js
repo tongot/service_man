@@ -10,11 +10,26 @@ const getters={
 const actions={
     async getViewProducts({commit},page)
     {
+        let url
+        let searchArray= []
+        if( page.productCategory.length>0){
+            page.productCategory.forEach(element => {
+                searchArray.push(element.id)
+            });
+        }
+        url ='/business_api/product/?page='+page.number+
+        '&search='+page.search+
+        '&productCategory='+searchArray.join()+
+        '&sellers='+page.businesses+
+        '&minPrice='+page.minPrice+
+        '&maxPrice='+page.maxPrice
+
         try {
-            const response = await axios.get('/business_api/product/?page='+page.number+'&search='+page.search)
+            const response = await axios.get(url)
             if(response.status=="200")
             {
                 commit('set_view_products',response.data)
+                return await response.data
             }
         } catch (error) {
             console.log(error.response)

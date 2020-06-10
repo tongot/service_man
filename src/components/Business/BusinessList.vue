@@ -4,7 +4,7 @@
       <!--
           dialog box for rating the business
       -->
-      <v-dialog
+    <v-dialog
       v-model="dialog_rate"
       width="600"
       >
@@ -18,7 +18,7 @@
             <v-card-text class="d-flex justify-end">
                 <span class="headline">Rate</span>
                 <v-btn 
-                icon v-for="rate_star in rate_stars" 
+                icon v-for="rate_star in rate_stars"
                 :key="rate_star.value"
                 @mouseover="mouseEnterStar(rate_star.value)"
                 @mouseleave="mouseLeaveStar"
@@ -67,28 +67,33 @@
      align="start"
      justify="space-around"
      > 
-        <v-flex class="px-2">
+        <v-flex class="px-2" md6 sm12>
           <v-card
           class="pa-2"
           outlined
           >
           <p>Category</p>
-          <v-select
+          <v-combobox
             placeholder="category"
+            :items="categories"
+            multiple
+            chips
+            :selected="selectedCategories"
           >
-          </v-select>
+          </v-combobox>
           </v-card>
       </v-flex>
      
-       <v-flex class="px-2">
+       <v-flex class="px-2"  md6 sm12>
          <v-card
           class="pa-2"
           outlined
           >
          <p>Location</p>
-          <v-select
-              placeholder="location"
-            ></v-select>
+      <v-overflow-btn outlined label="Select Location" target="#filters" width="auto"
+                            class="ma-5" :items="get_locations" prepend-icon="mdi-city" v-model="location"
+                            item-value="city" item-text="city">
+                        </v-overflow-btn>
          </v-card>
       </v-flex>
      </v-row>
@@ -96,17 +101,21 @@
     </v-expansion-panel-content>
 </v-expansion-panel>
  </v-expansion-panels>
+<v-container fluid>
+<v-row class="justify-space-around">
 
 <v-card
-    class="mt-2 mr-2"
-    max-width="450"
+    class="mb-2"
+    width="430"
     outlined
+    v-for="business in get_search_business"
+    :key="business.id"
   >
     <v-list-item three-line>
       <v-list-item-content>
-        <div class="overline mb-4">OVERLINE</div>
-        <v-list-item-title class="headline mb-1">SHahole consotium farm private limited</v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+        <div class="overline mb-4"></div>
+        <v-list-item-title class="headline mb-1">{{business.name}}</v-list-item-title>
+        <v-list-item-subtitle>{{business.description}}</v-list-item-subtitle>
       </v-list-item-content>
 
       <v-img
@@ -114,7 +123,7 @@
        aspect-ratio="1"
        max-height="150"
        max-width="150"
-       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+       :src="getLogo(business.business_logo)"
       >
 
       </v-img>
@@ -122,9 +131,9 @@
 
     <v-card-actions >
         <v-flex class="d-flex justify-start">
-        <v-btn text  @click.stop="dialog_rate= true">
+        <v-btn text color="blue"  @click.stop="dialog_rate= true">
             <v-icon left>mdi-star</v-icon>
-            Rate this Business
+            <u>Rate Business</u> 
         </v-btn>
         </v-flex>
         <v-flex  class="d-flex justify-end">
@@ -134,13 +143,17 @@
           
     </v-card-actions>
   </v-card>
+</v-row>
+</v-container>
   </v-container>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name:'business_list',
   data:()=>({
-        
+            categories:[],
+            selecteCategories:[],
             dialog_rate:false,
             star_color:'orange lighten-1',
             review:{
@@ -158,6 +171,7 @@ export default {
             ]
   })
   ,methods:{
+      ...mapActions(['getBusinessSearch','getLocations','getBusinessCategory']),
       mouseEnterStar(value)
       {
           //if value is 0 that means we are living the from the stars
@@ -220,7 +234,30 @@ export default {
           })
           this.review.number_of_stars=0;
           this.review.comment='';
+      },
+      getLogo(logo)
+      {
+          console.log(logo)
+          if(logo===null)
+          {
+              return require('../../assets/dummy/productDummy.png')
+          }
+          return logo
       }
+  },
+  computed:mapGetters(['get_search_business','get_locations']),
+  created()
+  {
+      this.getBusinessSearch('')
+  },
+  mounted()
+  {
+      this.getLocations()
+      this.getBusinessCategory().then((data)=>{
+          data.forEach((element)=>{
+              this.categories.push(element.name+','+element.id)
+          })
+      })
   }
 }
 </script>

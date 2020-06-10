@@ -13,13 +13,18 @@ const getters= {
     get_user: (state)=>state.user,
     get_token:(state)=>state.token,
     get_dialog_login:(state)=>state.dialog_login,
+    get_user_bar:(state)=>state.userBar
 };
 const actions = {
+    openUserBar({commit})
+    {
+        let value = !state.userBar;
+        commit('set_user_bar',value)
+    },
     getSetToken({commit}){
         if(localStorage.getItem('action')!=='undefined')
         {
           commit('setToken',localStorage.getItem('action'))
-          console.log(localStorage.getItem('action'))
         }
     },
     showLogIn({commit})
@@ -41,6 +46,7 @@ const actions = {
             {
                 if(response2.status=="200")
                 {
+                    commit('set_user_bar',true)
                     commit('setUsername',response2.data)
                 }
             }catch{
@@ -65,6 +71,7 @@ const actions = {
         try{
             commit('setUsername',data.username)
             localStorage.setItem('action',response.data.token)
+            
             return await response
         }
         catch(e){
@@ -108,6 +115,7 @@ const mutations = {
       ),
 
   setDialogLogIn:(state,value)=>(state.dialog_login=value),
+  set_user_bar:(state,value)=>(state.userBar=value)
 
 };
 

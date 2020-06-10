@@ -10,7 +10,7 @@
     <MainNavigation/>
 
   </v-navigation-drawer>
- <userBar :drawer2="drawer2"/>
+ <userBar />
 
   <v-app-bar app clipped-left flat clipped-right>
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -23,21 +23,40 @@
      <v-btn text v-if="get_user!=null">
         Signout
     </v-btn>
-     <v-btn @click="drawer2= !drawer2" icon>
+     <v-btn v-if="get_user!=null" @click="openUserBar()" icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
   </v-app-bar>
- 
-  <v-content>
+ <div>
+   <v-content>
     <v-container fluid>
-
       <login/>
       <snackBar/>
       <message/>
-
-      <router-view></router-view>
+      <section>
+        <v-toolbar
+          flat
+          color="grey lighten-4"
+          height="30"
+        >
+        <v-flex class="d-flex justify-center">
+            <v-btn :to="{name:'product-list'}" text small>
+              <u>products</u>
+          </v-btn>
+          <v-btn :to="{name:'business-list'}" text small>
+              <u>stores</u>
+          </v-btn>
+        </v-flex>
+        
+        </v-toolbar>
+      </section>
+      <section>
+           <router-view></router-view>
+      </section>
     </v-container>
   </v-content>
+ </div>
+  
 
   <v-footer app>
     <!-- -->
@@ -76,3 +95,5 @@ export default {
   }
 };
 </script>
+<style scoped>
+</style>

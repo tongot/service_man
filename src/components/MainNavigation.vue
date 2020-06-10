@@ -49,6 +49,9 @@
                     <v-icon>mdi-ungroup</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content class="text-capitalize caption">{{prod.name}}</v-list-item-content>
+                <v-list-item-action>
+                    <input type="checkbox" @change="setSearch(prod)" v-model="prod.selected"/>
+                </v-list-item-action>
             </v-list-item>
             </v-list-item-group>
 
@@ -72,12 +75,19 @@ export default {
         ]
     }),
     methods:{
-        ...mapActions(['getBusinessCategory','getProductCategory'])
+        ...mapActions(['getBusinessCategory','getProductCategory','addToSearch']),
+        setSearch(category){
+            this.addToSearch(category)
+        }
     },
     computed:mapGetters(['get_businessCategory','get_productCategory']),
     mounted(){
         this.getBusinessCategory();
-        this.getProductCategory();
+        this.getProductCategory().then((data)=>{
+            data.forEach(element => {
+                this.addToSearch(element)
+            });
+        })
     }
 }
 </script>
