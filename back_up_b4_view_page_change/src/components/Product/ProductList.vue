@@ -248,7 +248,6 @@ export default {
         businessSelected:[],
         loadingFilter:false,
         loadingFilterClear:false,
-        loadingBusinesses:false,
         businesses:[],
         dialog:false,
         page:1,
@@ -363,17 +362,13 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['get_view_products','get_search_category','get_locations','get_search_business','get_search_value']),
+    ...mapGetters(['get_view_products','get_search_category','get_locations','get_search_business']),
       getPageLength(){
         return Math.ceil(this.get_view_products.count/10)
       },
      
     },
   created(){
-    if(this.get_search_value!=='' || this.get_search_value!==null)
-    {
-      this.search=this.get_search_value
-    }
     this.getProd();
   },
   mounted(){

@@ -243,10 +243,6 @@ export default {
               return require('../../assets/dummy/productDummy.png')
           }
           return logo
-      },
-      getBuss()
-      {
-
       }
   },
   computed:mapGetters(['get_search_business','get_locations']),

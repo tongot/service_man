@@ -14,7 +14,6 @@ import ProductDetails from '../components/Product/ProductDetails'
 import EditProductCover from '../components/Product/EditProductCover'
 import ProductOrder from '../components/Product/Order'
 import BusinessOrders from '../components/Business/BusinessOrders'
-import Main from '../views/main'
 
 
 import Business from '../views/Business.vue'
@@ -28,11 +27,6 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/main',
-    name: 'Main',
-    component: Main,
-    children:[
-      {
     path: '/Products',
     name: 'Products',
     component: Products,
@@ -84,7 +78,8 @@ Vue.use(VueRouter)
       },
 
     ]
-  },{
+  },
+  {
     path: '/Business',
     name: 'Business',
     component: Business,
@@ -116,10 +111,6 @@ Vue.use(VueRouter)
       },
     ]
   },
-    ]
-  },
-  
-  
 
   /*{
     path: '/about',

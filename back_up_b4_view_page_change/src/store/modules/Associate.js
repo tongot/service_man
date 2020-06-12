@@ -5,11 +5,9 @@ const state={
             productCategory:[],
             businessCategory:[],
             productCategorySearch:[],
-            businessesSearch:[],
-            searchValue:''
+            businessesSearch:[]
 }
 const getters={
-    get_search_value:(state)=>state.searchValue,
     get_search_category:(state)=>state.productCategorySearch,
     get_locations:(state)=>state.locations,
     get_productCategory:(state)=>state.productCategory,
@@ -17,10 +15,6 @@ const getters={
     get_search_business:(state)=>state.businessesSearch
 }
 const actions={
-    setSearchValue({commit},val)
-    {
-        commit('set_search_value',val)      
-    },
     addToSearch({commit},category)
     {
         commit('set_search_category',category)
@@ -43,7 +37,7 @@ const actions={
     async getBusinessSearch({commit},search){
         let response
         try{
-            response= await axios.get('/business_api/business/?search='+search.search+'&businessCategory='+search.category.join())
+            response= await axios.get('/business_api/business/?search='+search)
         }catch
         {
             response=null
@@ -102,8 +96,7 @@ const mutations={
         }
         
     },
-    set_search_business:(state,data)=>state.businessesSearch=data,
-    set_search_value:(state,data)=>state.searchValue=data
+    set_search_business:(state,data)=>state.businessesSearch=data
 }
 export default{
     state,

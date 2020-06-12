@@ -5,7 +5,7 @@ import axios from "axios";
 
 const state ={
         user:null,
-        userBar:false,
+        userBar:null,
         token:'',
         dialog_login:false
 };
@@ -17,7 +17,7 @@ const getters= {
 };
 const actions = {
     openUserBar({commit})
-    {   
+    {
         let value = !state.userBar;
         commit('set_user_bar',value)
     },
@@ -46,7 +46,7 @@ const actions = {
             {
                 if(response2.status=="200")
                 {
-                   // commit('set_user_bar',true)
+                    commit('set_user_bar',true)
                     commit('setUsername',response2.data)
                 }
             }catch{

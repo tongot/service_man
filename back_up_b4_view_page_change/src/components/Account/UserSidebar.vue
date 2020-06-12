@@ -3,7 +3,7 @@
     clipped
     app
     right
-    v-model="getUserBar"
+    v-model="get_user_bar"
     >
       <template v-slot:prepend>
         <v-list-item two-line>
@@ -28,7 +28,7 @@
                 <v-list-item-title >My businesses</v-list-item-title>
             </template>
             <v-list-item-group>
-                <v-list-item v-for="(item,index) in subitems" :key="index" :to="item.route">
+                <v-list-item v-for="item in subitems" :key="item.route" :to="item.route">
                   <v-list-item-icon>
                     <v-icon>{{item.icon}}</v-icon>
                   </v-list-item-icon>
@@ -47,7 +47,7 @@ import {mapGetters} from 'vuex'
     data () {
       return {
         drawer:false,
-        userBar:false,
+
              subitems:[ 
                {title:'List', icon:'mdi-format-list-bulleted', route:{name:'my-business'}},
                       {title:'Add New', icon:'mdi-playlist-plus', route:{name:'business-new'}}],
@@ -55,15 +55,6 @@ import {mapGetters} from 'vuex'
     },
     methods:{ 
     },
-    computed:{
-      ...mapGetters(['get_user_bar','get_user']),
-      getUserBar:{
-          get:function(){
-            return this.get_user_bar
-          },
-          set:function(){
-          }
-      }
-      }
+    computed:mapGetters(['get_user_bar','get_user'])
   }
 </script>
