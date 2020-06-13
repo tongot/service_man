@@ -6,6 +6,7 @@ const state={
             businessCategory:[],
             productCategorySearch:[],
             businessesSearch:[],
+            businessCategorySearch:[],
             searchValue:''
 }
 const getters={
@@ -14,7 +15,8 @@ const getters={
     get_locations:(state)=>state.locations,
     get_productCategory:(state)=>state.productCategory,
     get_businessCategory:(state)=>state.businessCategory,
-    get_search_business:(state)=>state.businessesSearch
+    get_search_business:(state)=>state.businessesSearch,
+    get_search_categoryBusiness:(state)=>state.businessCategorySearch
 }
 const actions={
     setSearchValue({commit},val)
@@ -24,6 +26,9 @@ const actions={
     addToSearch({commit},category)
     {
         commit('set_search_category',category)
+    },
+    addToBusinessSearch({commit},category){
+        commit('set_search_categoryBusiness',category)
     },
     async getLocations({commit}){
         let response
@@ -43,7 +48,7 @@ const actions={
     async getBusinessSearch({commit},search){
         let response
         try{
-            response= await axios.get('/business_api/business/?search='+search.search+'&businessCategory='+search.category.join())
+            response= await axios.get('/business_api/business/?search='+search+'&businessCategory='+state.businessCategorySearch.join())
         }catch
         {
             response=null
@@ -93,6 +98,7 @@ const mutations={
     set_locations:(state,data)=>(state.locations=data),
     set_productCategory:(state,data)=>(state.productCategory=data),
     set_businessCategory:(state,data)=>(state.businessCategory=data),
+    set_businessCategoryChips:(state,data)=>(state.businessCategorySearch=data),
     set_search_category:(state,data)=>{
         if(data.selected){
             state.productCategorySearch.push(data)
@@ -103,7 +109,18 @@ const mutations={
         
     },
     set_search_business:(state,data)=>state.businessesSearch=data,
-    set_search_value:(state,data)=>state.searchValue=data
+    set_search_value:(state,data)=>state.searchValue=data,
+
+     set_search_categoryBusiness:(state,data)=>{
+            console.log( state.businessCategorySearch.indexOf(data))
+        if(data.selected && state.businessCategorySearch.indexOf(data)===-1){
+            state.businessCategorySearch.push(data)
+        }
+        else{
+            state.businessCategorySearch.splice(state.businessCategorySearch.indexOf(data),1 )
+        }
+        
+    },
 }
 export default{
     state,

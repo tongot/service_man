@@ -7,29 +7,29 @@
     <message/>
     <section>
        <v-navigation-drawer 
-    clipped
-    app
-    left
-    v-model="drawer"> 
+        clipped
+        app
+        left
+        v-model="drawer"> 
 
-<MainNavigation/>
-  </v-navigation-drawer>
-      </section> 
+      <MainNavigation/>
+    </v-navigation-drawer>
+    </section> 
       <section>
           <v-app-bar app clipped-left flat clipped-right>
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>Service man</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <h4  v-if="get_user!=null">{{get_user.email}}</h4>
-    <v-btn text @click="showLogIn" v-if="get_user==null">
-        Signin
-    </v-btn>
-     <v-btn text v-if="get_user!=null">
-        Signout
-    </v-btn>
-     <v-btn v-if="get_user!=null" @click="openUserBar()" icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+              <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+              <v-toolbar-title>Service man</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <h4  v-if="get_user!=null">{{get_user.email}}</h4>
+              <v-btn text @click="showLogIn" v-if="get_user==null">
+                  Signin
+              </v-btn>
+              <v-btn text v-if="get_user!=null">
+                  Signout
+              </v-btn>
+              <v-btn v-if="get_user!=null" @click="openUserBar()" icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
   </v-app-bar>
     <router-view></router-view>
 

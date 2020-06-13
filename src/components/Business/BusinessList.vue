@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <div>
       <!--
           dialog box for rating the business
       -->
@@ -41,66 +41,11 @@
     <v-toolbar
     flat
     height="60px"
+    class="mt-3"
     >
-    <v-toolbar-title>businesses</v-toolbar-title>
     <v-spacer></v-spacer>
-
-    <v-text-field
-    prepend-inner-icon="mdi-magnify"
-    class="mt-6"
-    placeholder="search"
-    >
-    </v-text-field>
-
-
     </v-toolbar>
 
- <v-expansion-panels
-      class="mt-2"
-    >
-<v-expansion-panel>
-  <v-expansion-panel-header>
-   Filters
-  </v-expansion-panel-header>
-   <v-expansion-panel-content>
-     <v-row
-     align="start"
-     justify="space-around"
-     > 
-        <v-flex class="px-2" md6 sm12>
-          <v-card
-          class="pa-2"
-          outlined
-          >
-          <p>Category</p>
-          <v-combobox
-            placeholder="category"
-            :items="categories"
-            multiple
-            chips
-            :selected="selectedCategories"
-          >
-          </v-combobox>
-          </v-card>
-      </v-flex>
-     
-       <v-flex class="px-2"  md6 sm12>
-         <v-card
-          class="pa-2"
-          outlined
-          >
-         <p>Location</p>
-      <v-overflow-btn outlined label="Select Location" target="#filters" width="auto"
-                            class="ma-5" :items="get_locations" prepend-icon="mdi-city" v-model="location"
-                            item-value="city" item-text="city">
-                        </v-overflow-btn>
-         </v-card>
-      </v-flex>
-     </v-row>
-    
-    </v-expansion-panel-content>
-</v-expansion-panel>
- </v-expansion-panels>
 <v-container fluid>
 <v-row class="justify-space-around">
 
@@ -145,15 +90,13 @@
   </v-card>
 </v-row>
 </v-container>
-  </v-container>
+  </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
 export default {
     name:'business_list',
   data:()=>({
-            categories:[],
-            selecteCategories:[],
             dialog_rate:false,
             star_color:'orange lighten-1',
             review:{
@@ -171,7 +114,7 @@ export default {
             ]
   })
   ,methods:{
-      ...mapActions(['getBusinessSearch','getLocations','getBusinessCategory']),
+      ...mapActions(['getBusinessSearch']),
       mouseEnterStar(value)
       {
           //if value is 0 that means we are living the from the stars
@@ -237,31 +180,17 @@ export default {
       },
       getLogo(logo)
       {
-          console.log(logo)
           if(logo===null)
           {
               return require('../../assets/dummy/productDummy.png')
           }
           return logo
       },
-      getBuss()
-      {
-
-      }
   },
   computed:mapGetters(['get_search_business','get_locations']),
   created()
   {
       this.getBusinessSearch('')
-  },
-  mounted()
-  {
-      this.getLocations()
-      this.getBusinessCategory().then((data)=>{
-          data.forEach((element)=>{
-              this.categories.push(element.name+','+element.id)
-          })
-      })
   }
 }
 </script>
