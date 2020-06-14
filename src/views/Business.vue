@@ -13,24 +13,23 @@
           v-model="searchText"
           >
           </v-text-field>
-          <v-btn class="pink lighten-2 white--text">
+          <v-btn  @click="getBuss()" class="pink lighten-2 white--text">
             search
           </v-btn>
-       {{get_search_categoryBusiness}}
       </v-toolbar>
        <v-chip class="ml-1">
-            <strong>{{get_businessCategory.length}} categories</strong>
-          <v-chip small color="grey darken-1" class="ml-1 white--text" @click="removeCategory(search)" v-for="search in get_businessCategory" :key="search.id">
+            <strong>{{categories.length}} categories</strong>
+          <v-chip small color="grey darken-1" class="ml-1 white--text" @click="removeCategory(search)" v-for="search in categories" :key="search.id">
             <span v-if="search.selected">{{search.name}}</span>
           </v-chip>
       </v-chip >
-
+      <div :class="hidcontent">
       <router-view></router-view>
+      </div>
     </v-col>
-
     <div  :class="sidebar">
         <v-card>
-          <v-img   src="https://cdn.vuetifyjs.com/images/cards/store.jpg">
+          <v-img   src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
             <v-card-title class="white--text">Stores</v-card-title>
           </v-img>
           <v-card-text>
@@ -42,10 +41,10 @@
                         <v-divider></v-divider>-->
               <v-subheader>CATEGORIES</v-subheader>
               <v-list-item-group>
-                <v-list-item v-for="item in get_businessCategory" :key="item.id">
+                <v-list-item v-for="item in categories" :key="item.id">
                   <v-list-item-content>{{item.name}}</v-list-item-content>
                   <v-list-item-action>
-                    <v-checkbox v-model="item.selected" @change="setCategorySearch(item)"></v-checkbox>
+                    <v-checkbox v-model="item.selected"></v-checkbox>
                   </v-list-item-action>
                 </v-list-item>
               </v-list-item-group>
@@ -64,28 +63,42 @@ export default {
      
       sidebar:'sidebar'
       ,content:'content',
+      hidcontent:'hid-content',
        location:'',
        categories:[],
        searchText:''
     }),
     methods:{
-      ...mapActions(['getLocations','getBusinessCategory','addToBusinessSearch',]),
+      ...mapActions(['getLocations','getBusinessCategory','getBusinessSearch']),
       showSideBar(){
           if(this.sidebar=='sidebar'){
              this.sidebar='sidebar-leave'
              this.content='content-leave'
+             this.hidcontent=''
           } 
           else{
             this.content='content'
              this.sidebar='sidebar'
+             this.hidcontent='hid-content'
           }
-      },
-      setCategorySearch(category){
-         this.addToBusinessSearch(category)
       },
       getBuss()
       {
-        
+        if(this.searchText===''|| this.searchText===null)
+        {
+          return;
+        }
+        let categories= this.categories.filter(item=>item.selected===true)
+        //get ids
+        let id=[]
+        categories.forEach(element=>{
+          id.push(element.id)
+        })
+        const val = {
+          search:this.searchText,
+          categories: id.length>0?id.join():''
+        }
+        this.getBusinessSearch(val)
       },
       removeCategory(element)
     {
@@ -94,13 +107,11 @@ export default {
     }
     },
     
-    computed:mapGetters(['get_businessCategory','get_locations','get_search_categoryBusiness']),
+    computed:mapGetters(['get_businessCategory','get_locations',]),
     mounted(){
-      this.get_search_categoryBusiness=[]
+
         this.getBusinessCategory().then((data)=>{
-          data.forEach((element)=>{
-                this.addToBusinessSearch(element)   
-          })
+          this.categories=data
       })
     }
 }
@@ -195,7 +206,9 @@ export default {
         }
       }
     
-
+      .hid-content{
+        visibility: collapse;
+      }
       .content-leave{
         width: 100%;
         margin-left:0%;

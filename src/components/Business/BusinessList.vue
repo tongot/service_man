@@ -46,8 +46,8 @@
     <v-spacer></v-spacer>
     </v-toolbar>
 
-<v-container fluid>
-<v-row class="justify-space-around">
+<div fluid>
+<v-row class="justify-space-around align-start">
 
 <v-card
     class="mb-2"
@@ -89,7 +89,7 @@
     </v-card-actions>
   </v-card>
 </v-row>
-</v-container>
+</div>
   </div>
 </template>
 <script>
@@ -190,7 +190,7 @@ export default {
   computed:mapGetters(['get_search_business','get_locations']),
   created()
   {
-      this.getBusinessSearch('')
+      this.getBusinessSearch({search:'',categories:''})
   }
 }
 </script>

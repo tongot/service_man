@@ -355,7 +355,6 @@ export default {
 
         this.page=1
         this.search=''
-        this.get_search_category=[]
         this.maxPrice=''
         this.minPrice=0
         this.businessSelected=[]

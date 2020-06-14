@@ -27,9 +27,6 @@ const actions={
     {
         commit('set_search_category',category)
     },
-    addToBusinessSearch({commit},category){
-        commit('set_search_categoryBusiness',category)
-    },
     async getLocations({commit}){
         let response
         try{
@@ -48,7 +45,7 @@ const actions={
     async getBusinessSearch({commit},search){
         let response
         try{
-            response= await axios.get('/business_api/business/?search='+search+'&businessCategory='+state.businessCategorySearch.join())
+            response= await axios.get('/business_api/business/?search='+search.search+'&businessCategory='+search.categories)
         }catch
         {
             response=null
@@ -109,18 +106,8 @@ const mutations={
         
     },
     set_search_business:(state,data)=>state.businessesSearch=data,
-    set_search_value:(state,data)=>state.searchValue=data,
-
-     set_search_categoryBusiness:(state,data)=>{
-            console.log( state.businessCategorySearch.indexOf(data))
-        if(data.selected && state.businessCategorySearch.indexOf(data)===-1){
-            state.businessCategorySearch.push(data)
-        }
-        else{
-            state.businessCategorySearch.splice(state.businessCategorySearch.indexOf(data),1 )
-        }
-        
-    },
+    set_search_value:(state,data)=>state.searchValue=data
+    
 }
 export default{
     state,
