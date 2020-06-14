@@ -1,11 +1,10 @@
 <template>
-   <v-content>
     <v-container fluid>
-      <section>
-        <v-toolbar
+       <v-toolbar
           flat
           color="grey lighten-4"
           height="30"
+          class="mt-2"
         >
         <v-flex class="d-flex justify-center">
             <v-btn :to="{name:'product-list'}" text small>
@@ -17,12 +16,8 @@
         </v-flex>
         
         </v-toolbar>
-      </section>
-      <section>
            <router-view></router-view>
-      </section>
     </v-container>
-  </v-content>
 </template>
 <script>
 
@@ -30,20 +25,6 @@
 export default {
   name: 'main',
   components: {
-
   },
-
- /* data: () => ({
-    drawer:null,
-    drawer2:null
-  }),
-  methods:{
-      ...mapActions(['showLogIn','getUserDetails','openUserBar'])
-  },
-  computed: mapGetters(['get_user']),
-  mounted(){
-    this.getUserDetails()
-  
-  }*/
 };
 </script>

@@ -5,20 +5,21 @@
     <userBar/>
     <snackBar/>
     <message/>
-    <section>
-       <v-navigation-drawer 
-        clipped
-        app
-        left
-        v-model="drawer"> 
-
-      <MainNavigation/>
-    </v-navigation-drawer>
-    </section> 
-      <section>
-          <v-app-bar app clipped-left flat clipped-right>
-              <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-              <v-toolbar-title>Service man</v-toolbar-title>
+          <v-app-bar app dark color="primary">
+              <v-toolbar-title >
+                <v-btn text :to="{name:'Home'}">
+                  <v-icon left>
+                    mdi-home-circle
+                  </v-icon>
+                  Service man
+                </v-btn>
+                     <v-btn :to="{name:'business-list'}" text small>
+              Stores
+          </v-btn>
+             <v-btn :to="{name:'product-list'}" text small>
+               Products
+          </v-btn>
+                </v-toolbar-title>
               <v-spacer></v-spacer>
               <h4  v-if="get_user!=null">{{get_user.email}}</h4>
               <v-btn text @click="showLogIn" v-if="get_user==null">
@@ -31,9 +32,10 @@
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
   </v-app-bar>
+  <v-main>
     <router-view></router-view>
 
-      </section>
+  </v-main>
   </v-app>
 </template>
 
@@ -44,12 +46,12 @@ import {mapGetters,mapActions} from 'vuex'
 import userBar from './components/Account/UserSidebar'
 import snackBar from './components/OrderSnackBar'
 import message from './components/Messaging'
-import MainNavigation from './components/MainNavigation'
+//import MainNavigation from './components/MainNavigation'
 
 export default {
   name: 'App',
   components: {
-     MainNavigation,login
+    login
      ,userBar,
          'snackBar':snackBar,
          message

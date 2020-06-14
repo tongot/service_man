@@ -9,6 +9,7 @@ import ProductsView from './modules/ProductsView'
 import Ordering from './modules/Ordering'
 import snackBar from './modules/snackBar'
 import Message from './modules/Message'
+import commentsReviews from './modules/commentsReviews'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     ProductsView,
     Ordering,
     snackBar,
-    Message
+    Message,
+    commentsReviews
   }
 })

@@ -1,8 +1,9 @@
 <template>
   <v-card flat class="mt-5">
-  <v-row justify="center">
-    <v-chip class="ml-1" color="purple lighten-3">
-  <v-chip v-for="(pcategory,i) in producductCategories" :key="i" small color="grey darken-1" class="ml-1 white--text">
+    
+  <v-row justify="center" class="mt-5">
+    <v-chip class="ml-1 pa-2" color="primary lighten-3">
+  <v-chip v-for="(pcategory,i) in producductCategories" :key="i" pill class="ma-2" color="primary">
     {{pcategory}}
   </v-chip>
 </v-chip >
@@ -27,7 +28,10 @@
         </v-form>
         <v-row depressed justify="center" >
              <v-col class="d-flex justify-center" >
-             <v-btn large color="purple lighten-3" @click="postSearch()">
+             <v-btn large color="primary" @click="postSearch()">
+               <v-icon left>
+                 mdi-magnify
+               </v-icon>
               search
             </v-btn>
         </v-col>

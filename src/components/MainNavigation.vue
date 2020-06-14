@@ -82,12 +82,7 @@ export default {
     },
     computed:mapGetters(['get_businessCategory','get_productCategory']),
     mounted(){
-        this.getBusinessCategory();
-        this.getProductCategory().then((data)=>{
-            data.forEach(element => {
-                this.addToSearch(element)
-            });
-        })
+    
     }
 }
 </script>

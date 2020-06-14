@@ -11,18 +11,17 @@
           class="mt-6"
           placeholder="search"
           v-model="searchText"
+          @keyup="clearSearch()"
+          @keypress.enter="getBuss()"
           >
           </v-text-field>
           <v-btn  @click="getBuss()" class="pink lighten-2 white--text">
             search
           </v-btn>
       </v-toolbar>
-       <v-chip class="ml-1">
-            <strong>{{categories.length}} categories</strong>
-          <v-chip small color="grey darken-1" class="ml-1 white--text" @click="removeCategory(search)" v-for="search in categories" :key="search.id">
-            <span v-if="search.selected">{{search.name}}</span>
-          </v-chip>
-      </v-chip >
+      <v-chip pill class="pa-1 ma-1"  v-for="search in categories" :key="search.id" @click="setSearch(search)">
+        {{search.name}}
+      </v-chip>
       <div :class="hidcontent">
       <router-view></router-view>
       </div>
@@ -104,6 +103,12 @@ export default {
     {
       element.selected=false
       this.addToBusinessSearch(element)
+    },
+    clearSearch(){
+      if(this.searchText==='' || this.searchText===null)
+      {
+        this.getBusinessSearch({search:'',categories:''})
+      }
     }
     },
     
@@ -117,7 +122,7 @@ export default {
 }
 </script>
 <style scoped>
-  *{
+*{
     padding: 2px;
     margin: 0;
   }
@@ -193,7 +198,7 @@ export default {
         }
       }
       .sidebar-leave{
-        position:absolute; 
+        position:absolute;
         width: 0%;
         display: none;
         animation: slide-out 400ms

@@ -96,15 +96,7 @@ const mutations={
     set_productCategory:(state,data)=>(state.productCategory=data),
     set_businessCategory:(state,data)=>(state.businessCategory=data),
     set_businessCategoryChips:(state,data)=>(state.businessCategorySearch=data),
-    set_search_category:(state,data)=>{
-        if(data.selected){
-            state.productCategorySearch.push(data)
-        }
-        else{
-            state.productCategorySearch.splice(state.productCategorySearch.indexOf(data),1 )
-        }
-        
-    },
+    set_search_category:(state,data)=>state.productCategorySearch=data,
     set_search_business:(state,data)=>state.businessesSearch=data,
     set_search_value:(state,data)=>state.searchValue=data
     

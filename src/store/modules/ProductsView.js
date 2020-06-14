@@ -8,17 +8,22 @@ const getters={
     get_view_product:(state)=>state.product
 }
 const actions={
+    getsearch(val){
+            return val!==null?val:''
+        },
     async getViewProducts({commit},page)
     {
+        
         let url
         let searchArray= []
         if( page.productCategory.length>0){
             page.productCategory.forEach(element => {
+                console.log(element)
                 searchArray.push(element.id)
             });
         }
         url ='/business_api/product/?page='+page.number+
-        '&search='+page.search+
+        '&search='+actions.getsearch(page.search)+
         '&productCategory='+searchArray.join()+
         '&sellers='+page.businesses+
         '&minPrice='+page.minPrice+

@@ -1,59 +1,49 @@
 <template>
 
-  <v-container class="mt-0">
+  <v-card flat class="mt-0">
 
 
 <!--
   modal to view the product details
   -->
 <!-- main view for the list of the products-->
+ <v-chip pill class="pa-1 ma-1"  v-for="search in get_productCategory" :key="search.id" @click="setSearch(search)">
+        {{search.name}}
+      </v-chip>
+
       <v-toolbar
-    flat
     height="60px"
-    class="mb-2"
+    flat
     >
-    <v-row class="d-flex">
-      <v-col>
-      <v-toolbar-title>Products</v-toolbar-title>
-    </v-col>
-    <v-col sm="12" xs="12" lg="6" md="6">
-      <v-form class="d-flex align-center" ref="searchForm">
+      <v-spacer></v-spacer>
      <v-text-field
      :rules="[rules.required]"
       prepend-inner-icon="mdi-magnify"
-      class="mt-6"
       placeholder="Search any descriptive word"
       v-model="search"
-      @keyup="clearSearch()"
+      @keyup.enter="searching()"
       >
     </v-text-field>
     <v-btn @click="searching()" depressed class="ml-2">
       search
     </v-btn>
-    </v-form>
-    </v-col>
-    </v-row>
+
     <v-row>
 
     </v-row>
     </v-toolbar>
+
+
 
  <v-expansion-panels
     class="mt-12"
     >
 <v-expansion-panel>
   <v-expansion-panel-header>
-   Filters
-   <v-chip class="ml-1">
-   <v-avatar left>
-     <v-icon color="white">mdi-group</v-icon>
-   </v-avatar>
-  <v-chip close small color="grey darken-1" class="ml-1 white--text" @click:close="setSearch(search)" v-for="search in get_search_category" :key="search.id">
-    {{search.name}}
-  </v-chip>
-</v-chip >
+   More filters
+
   </v-expansion-panel-header>
-   <v-expansion-panel-content id="filters">
+   <v-expansion-panel-content id="filters1">
      <v-row
      align="start"
      justify="space-around"
@@ -64,7 +54,7 @@
           outlined
           >
          <p>Location</p>
-          <v-overflow-btn outlined label="Select Location" target="#filters" width="auto"
+          <v-overflow-btn outlined label="Select Location" target="#filters1" width="auto"
                             class="ma-5" :items="get_locations" prepend-icon="mdi-city" v-model="location"
                             item-value="city" item-text="city" @change="getBuss()">
                         </v-overflow-btn>
@@ -235,10 +225,10 @@
               v-model="page"
               @input="getPage()"
               class="my-4"
-              :length="getPageLength"
+              :length="pageCount"
             ></v-pagination>
 </v-row>
-  </v-container>
+  </v-card>
 </template>
 <script>
 import {mapGetters, mapActions} from 'vuex'
@@ -249,6 +239,7 @@ export default {
         loadingFilter:false,
         loadingFilterClear:false,
         loadingBusinesses:false,
+        categories:[],
         businesses:[],
         dialog:false,
         page:1,
@@ -307,14 +298,10 @@ export default {
     },
     searching()
     {
-      if(this.$refs.searchForm.validate())
-      {
-          if(this.search.length>=3)
+      if(this.search!==''&& this.search!==null)
       {
         this.searchValues.page=1
-       this.getProd();
-      }
-     
+        this.getProd();
       }
     
     },
@@ -323,7 +310,7 @@ export default {
       this.businessSelected=[]
       this.businesses=[]
       this.loadingBusinesses=true;
-      this.getBusinessSearch(this.location).then((data)=>{
+      this.getBusinessSearch({search:this.location,category:''}).then((data)=>{
       data.forEach(element => {
         this.businesses.push(element.name+','+element.id)
       });
@@ -342,11 +329,12 @@ export default {
         })
       }
       businesses.join();
+      console.log(this.get_search_category)
       this.getViewProducts(
         {
         number:this.page,
         search:this.search,
-        productCategory:this.get_search_category,
+        productCategory:this.get_productCategory.filter(item=>item.selected===true),
         businesses:businesses,
         maxPrice:this.maxPrice,
         minPrice:this.minPrice})
@@ -362,24 +350,21 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['get_view_products','get_search_category','get_locations','get_search_business','get_search_value']),
-      getPageLength(){
-        return Math.ceil(this.get_view_products.count/10)
+    ...mapGetters(['get_view_products','get_productCategory','get_locations','get_search_business','get_search_value']),
+      pageCount(){
+        return this.get_view_products.count>0? Math.ceil(this.get_view_products.count/10):0
       },
      
     },
   created(){
-    if(this.get_search_value!=='' || this.get_search_value!==null)
-    {
-      this.search=this.get_search_value
-    }
+    this.search=this.get_search_value 
     this.getProd();
   },
   mounted(){
     
     this.getLocations()
     this.loadingBusinesses=true;
-    this.getBusinessSearch('').then((data)=>{
+    this.getBusinessSearch({search:this.location,category:''}).then((data)=>{
        data.forEach(element => {
         this.businesses.push(element.name+","+element.id)
       });
