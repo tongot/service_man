@@ -1,6 +1,6 @@
 <template>
 
-  <v-card flat class="mt-4 pa-1">
+  <v-card flat class="ma-4 pa-1">
       <!--
           dialog box for rating the business
       -->
@@ -55,12 +55,16 @@
 <div fluid>
 <v-row class="justify-space-around align-start">
 
+<v-hover
+ v-slot:default="{hover}"
+   v-for="business in get_search_business"
+    :key="business.id"
+>
 <v-card
     class="mb-2"
     width="430"
     outlined
-    v-for="business in get_search_business"
-    :key="business.id"
+    :elevation="hover? 12 : 1"
   >
     <v-list-item three-line>
       <v-list-item-content>
@@ -94,6 +98,8 @@
           
     </v-card-actions>
   </v-card>
+</v-hover>
+
 </v-row>
 </div>
   </v-card>

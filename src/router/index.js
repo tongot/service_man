@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
+import Main from '../views/main'
+import Portal from '../views/Portal.vue'
 import ProductList from '../components/Product/ProductList.vue'
 import AddNewProduct from '../components/Product/AddNewProduct.vue'
 import BusinessList from '../components/Business/BusinessList'
@@ -14,9 +16,6 @@ import ProductDetails from '../components/Product/ProductDetails'
 import EditProductCover from '../components/Product/EditProductCover'
 import ProductOrder from '../components/Product/Order'
 import BusinessOrders from '../components/Business/BusinessOrders'
-import Main from '../views/main'
-
-
 import Business from '../views/Business.vue'
 
 Vue.use(VueRouter)
@@ -42,6 +41,37 @@ Vue.use(VueRouter)
         name: 'product-list',
         component: ProductList
       },
+     
+      {
+        path: 'product/details/:productId',
+        name: 'productDetails',
+        component: ProductDetails
+      },
+      {
+        path: 'product/order/:productId',
+        name: 'productOrder',
+        component: ProductOrder
+      },
+
+    ]
+  },{
+    path: '/Business',
+    name: 'Business',
+    component: Business,
+    children:[
+      {
+        path: 'list',
+        name: 'business-list',
+        component: BusinessList
+      },
+     
+    ]
+  }, {
+    path: '/Portal',
+    name: 'portal',
+    component: Portal,
+    children:[
+      //product urls
       {
         path: 'new/:businessId',
         name: 'product-new',
@@ -72,28 +102,8 @@ Vue.use(VueRouter)
         name: 'editCoverPicture',
         component: EditProductCover
       },
-      {
-        path: 'product/details/:productId',
-        name: 'productDetails',
-        component: ProductDetails
-      },
-      {
-        path: 'product/order/:productId',
-        name: 'productOrder',
-        component: ProductOrder
-      },
 
-    ]
-  },{
-    path: '/Business',
-    name: 'Business',
-    component: Business,
-    children:[
-      {
-        path: 'list',
-        name: 'business-list',
-        component: BusinessList
-      },
+      //business urls
       {
         path: 'new',
         name: 'business-new',

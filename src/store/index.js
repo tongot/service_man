@@ -10,6 +10,7 @@ import Ordering from './modules/Ordering'
 import snackBar from './modules/snackBar'
 import Message from './modules/Message'
 import commentsReviews from './modules/commentsReviews'
+import home from './modules/home'
 
 Vue.use(Vuex)
 
@@ -31,5 +32,6 @@ export default new Vuex.Store({
     snackBar,
     Message,
     commentsReviews
+    ,home
   }
 })

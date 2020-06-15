@@ -364,7 +364,7 @@ export default {
                         }
                         if(response.status=="201"||response.status=="200"){
                             this.loading=false
-                            this.notify({text:"New business added successfully", color:"success", open:true})
+                            this.notify({text:"Save : )", color:"success", open:true})
                             this.$router.push({name:'my-business'})
                         }
                         else{

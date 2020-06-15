@@ -1,6 +1,6 @@
 <template>      
   <v-app>
-    <userBar />
+    <userBar/>
     <login/>
     <userBar/>
     <snackBar/>
@@ -19,13 +19,16 @@
              <v-btn :to="{name:'product-list'}" text small>
                Products
           </v-btn>
+          <v-btn text small\ :to="{name:'my-business'}" v-if="get_user!=null">
+                  Portal
+              </v-btn>
                 </v-toolbar-title>
               <v-spacer></v-spacer>
               <h4  v-if="get_user!=null">{{get_user.email}}</h4>
               <v-btn text @click="showLogIn" v-if="get_user==null">
                   Signin
               </v-btn>
-              <v-btn text v-if="get_user!=null">
+              <v-btn @click="user_logout()" text v-if="get_user!=null">
                   Signout
               </v-btn>
               <v-btn v-if="get_user!=null" @click="openUserBar()" icon>
@@ -61,7 +64,10 @@ export default {
     drawer:false,
   }),
   methods:{
-      ...mapActions(['showLogIn','getUserDetails','openUserBar'])
+      ...mapActions(['showLogIn','getUserDetails','openUserBar','logout']),
+      user_logout(){
+          this.logout()
+      }
   },
   computed: mapGetters(['get_user']),
   mounted(){

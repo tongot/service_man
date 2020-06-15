@@ -1,6 +1,7 @@
 //import axios from 'axios'
 
 import axios from "axios";
+import router from "../../router";
 
 
 const state ={
@@ -16,6 +17,11 @@ const getters= {
     get_user_bar:(state)=>state.userBar
 };
 const actions = {
+    logout({commit}){
+        localStorage.removeItem('action')
+        commit('setUsername',null)
+        router.push('/')
+    },
     openUserBar({commit})
     {   
         let value = !state.userBar;
