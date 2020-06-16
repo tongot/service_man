@@ -19,7 +19,7 @@
              <v-btn :to="{name:'product-list'}" text small>
                Products
           </v-btn>
-          <v-btn text small\ :to="{name:'my-business'}" v-if="get_user!=null">
+          <v-btn text small :to="{name:'my-business'}" v-if="get_user!=null">
                   Portal
               </v-btn>
                 </v-toolbar-title>
@@ -76,5 +76,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
