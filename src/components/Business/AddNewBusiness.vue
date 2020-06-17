@@ -45,19 +45,27 @@
             <v-col cols="12" md="6" sm="12">
               <v-list dense outlined>
                 <v-list-item-group>
-                  <v-list-item v-for="(director,index) in business.directors" :key="index">
-                    <v-list-item-title>{{director.first_name+" "+director.last_name}}</v-list-item-title>
-                    <v-list-item-action>
-                      <v-btn color="pink darken-1" @click="removeDirector(index)" fab small>
-                        <v-icon class="white--text">mdi-account-multiple-minus</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
+                  <span v-for="(director,index) in business.directors" :key="index">
+                    <v-list-item v-show="director.id>=0||typeof(director.id)=='undefined'">
+                      <v-list-item-title
+                        @click="(directorEdit(index))"
+                      >{{director.first_name+" "+director.last_name}}</v-list-item-title>
+                      <v-list-item-action>
+                        <v-btn color="pink darken-1" @click="removeDirector(index)" fab small>
+                          <v-icon class="white--text">mdi-account-multiple-minus</v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </v-list-item>
+                  </span>
                 </v-list-item-group>
               </v-list>
             </v-col>
           </v-row>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="modalDirectors=false" depressed>done</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -106,19 +114,27 @@
             <v-col cols="12" md="6" sm="12">
               <v-list dense outlined>
                 <v-list-item-group>
-                  <v-list-item v-for="(contact,index) in business.contact_person" :key="index">
-                    <v-list-item-title>{{contact.first_name+" "+contact.last_name}}</v-list-item-title>
-                    <v-list-item-action>
-                      <v-btn color="pink darken-1" @click="removeContact(index)" fab small>
-                        <v-icon class="white--text">mdi-account-multiple-minus</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
+                  <span v-for="(contact,index) in business.contact_person" :key="index">
+                    <v-list-item v-show="contact.id>=0||typeof(contact.id)=='undefined'">
+                      <v-list-item-title
+                        @click="contactEdit(index)"
+                      >{{contact.first_name+" "+contact.last_name}}</v-list-item-title>
+                      <v-list-item-action>
+                        <v-btn color="pink darken-1" @click="removeContact(index)" fab small>
+                          <v-icon class="white--text">mdi-account-multiple-minus</v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </v-list-item>
+                  </span>
                 </v-list-item-group>
               </v-list>
             </v-col>
           </v-row>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="modalContact=false" depressed>done</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -269,12 +285,14 @@
                   <v-icon>mdi-account-multiple-plus</v-icon>
                 </v-btn>
               </v-card-title>
-              <v-chip pill v-for="(dir,index) in business.directors" :key="index">
-                <v-avatar>
-                  <v-icon>mdi-account-circle</v-icon>
-                </v-avatar>
-                {{dir.first_name+" "+dir.last_name}}
-              </v-chip>
+              <span v-for="(dir,index) in business.directors" :key="index">
+                <v-chip pill v-show="dir.id>=0||typeof(dir.id)=='undefined'">
+                  <v-avatar>
+                    <v-icon>mdi-account-circle</v-icon>
+                  </v-avatar>
+                  {{dir.first_name+" "+dir.last_name}}
+                </v-chip>
+              </span>
             </v-card>
           </v-card>
         </v-flex>
@@ -303,21 +321,6 @@
               v-model="business.phone"
               :rules="[rules.required]"
             ></v-text-field>
-
-            <v-text-field
-              prepend-icon="mdi-account"
-              label="Contact Person Full name"
-              outlined
-              v-model="business.contact_persona_name"
-              :rules="[rules.required]"
-            ></v-text-field>
-            <v-text-field
-              prepend-icon="mdi-card-account-phone"
-              label="Contact Phone Number"
-              outlined
-              v-model="business.contact_persona_phone"
-              :rules="[rules.required]"
-            ></v-text-field>
             <v-card class="mt-4 pa-4" outlined>
               <v-card-title>
                 Contact Person
@@ -326,17 +329,19 @@
                   <v-icon>mdi-account-multiple-plus</v-icon>
                 </v-btn>
               </v-card-title>
-
-              <v-chip pill v-for="(cont,index) in business.contact_person" :key="index">
-                <v-avatar>
-                  <v-icon>mdi-account-circle</v-icon>
-                </v-avatar>
-                {{cont.first_name+" "+cont.last_name}}
-              </v-chip>
+              <span v-for="(cont,index) in business.contact_person" :key="index">
+                <v-chip v-show="cont.id>=0||typeof(cont.id)=='undefined'" pill>
+                  <v-avatar>
+                    <v-icon>mdi-account-circle</v-icon>
+                  </v-avatar>
+                  {{cont.first_name+" "+cont.last_name}}
+                </v-chip>
+              </span>
             </v-card>
           </v-card>
         </v-flex>
       </v-row>
+      <v-alert type="warning" v-if="alert.show">{{alert.text}}</v-alert>
       <v-row>
         <v-flex md12 lg12 class="d-flex justify-end">
           <v-btn :loading="loading" color="success" @click="postBusiness()">save business</v-btn>
@@ -353,6 +358,7 @@ export default {
   name: "add_new_product",
   data: () => ({
     isEditing: false,
+    editingContact: false,
     modalDirectors: false,
     modalContact: false,
     location_id: 0,
@@ -370,6 +376,10 @@ export default {
     error: {
       text: "",
       color: ""
+    },
+    alert: {
+      show: false,
+      text: ""
     },
     loading: false,
     business: {
@@ -420,17 +430,35 @@ export default {
     //______________________________________contact window____________________________________________
     addContact() {
       if (this.$refs.addContact.validate()) {
-        this.business.contact_person.push(this.contactPerson);
-        this.contactPerson = {};
+        if (this.editingContact == true) {
+          this.editingContact == false;
+          this.contactPerson = {};
+        } else {
+          this.business.contact_person.push(this.contactPerson);
+          this.contactPerson = {};
+        }
       }
     },
     removeContact(index) {
-      this.business.contact_person.splice(index, 1);
+      if (this.isEditing) {
+        this.business.contact_person[index].id =
+          -1 * this.business.contact_person[index].id;
+        if (this.business.contact_person[index].id == 0) {
+          this.business.contact_person.splice(index, 1);
+        }
+      } else {
+        this.business.contact_person.splice(index, 1);
+      }
     },
     closeContactWindow() {
       this.modalContact = false;
     },
-
+    contactEdit(index) {
+      if (this.isEditing) {
+        this.editingContact = true;
+        this.contactPerson = this.business.contact_person[index];
+      }
+    },
     //______________________________________directors window____________________________________________
     addDirector() {
       if (this.$refs.addDirector.validate()) {
@@ -438,13 +466,27 @@ export default {
         this.director = {};
       }
     },
+
     removeDirector(index) {
-      this.business.directors.splice(index, 1);
+      if (this.isEditing) {
+        this.business.directors[index].id =
+          -1 * this.business.directors[index].id;
+        if (this.business.directors[index].id == 0) {
+          this.business.directors.splice(index, 1);
+        }
+      } else {
+        this.business.directors.splice(index, 1);
+      }
     },
     closeDirectorWindow() {
       this.modalDirectors = false;
     },
-
+    directorEdit(index) {
+      if (this.isEditing) {
+        this.editingContact = true;
+        this.director = this.business.directors[index];
+      }
+    },
     //____________________________________________________________________________________________________
     AddImage() {
       if (this.selected_image != null) {
@@ -500,6 +542,29 @@ export default {
       this.images_to_post.splice(img, 1);
     },
     async postBusiness() {
+      this.alert.show = false;
+      if (
+        this.business.contact_person.length < 1 ||
+        this.business.directors.length < 1
+      ) {
+        this.alert.show = true;
+        this.alert.text = "Provide at least 1 director 1 contact person";
+        return;
+      }
+      if (
+        this.business.contact_person.filter(item => item.id > -1).length < 1
+      ) {
+        this.alert.show = true;
+        this.alert.text = "No contact(s) person provided";
+        return;
+      }
+      if (this.business.directors.filter(item => item.id > -1).length < 1) {
+        this.alert.show = true;
+        this.alert.text = "No director(s) provided";
+        return;
+      }
+      console.log(JSON.stringify(this.business.directors));
+      console.log(this.business);
       if (this.$refs.form_data.validate()) {
         this.loading = true;
         let response;
@@ -515,8 +580,11 @@ export default {
             formData.append("id", this.business.id);
           }
           formData.append("articles_number", this.business.articles_number);
-          formData.append("directors", this.directors);
-          formData.append("contact_person", this.contact_person);
+          formData.append("directorJ", JSON.stringify(this.business.directors));
+          formData.append(
+            "contactJ",
+            JSON.stringify(this.business.contact_person)
+          );
           formData.append("name", this.business.name);
           formData.append("location", this.location_id);
           formData.append("category", this.categoryId);
@@ -538,7 +606,7 @@ export default {
             if (response.status == "201" || response.status == "200") {
               this.loading = false;
               this.notify({
-                text: "New business added successfully",
+                text: "Saved :-)",
                 color: "success",
                 open: true
               });
