@@ -1,0 +1,110 @@
+<template>
+  <v-container fluid>
+    <v-row justify="center">
+      <v-col sm="12" md="4">
+        <v-card class="d-flex pa-2" width="500">
+          <v-text-field
+            outlined
+            class="white--text"
+            prepend-inner-icon="mdi-magnify"
+            placeholder="Search any descriptive word"
+            v-model="search.search"
+          ></v-text-field>
+          <v-btn @click="getProducts()" depressed class="ml-2 my-2">search</v-btn>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row justify="space-around">
+      <v-hover
+        v-slot:default="{ hover }"
+        class="mx-4"
+        v-for="(product,index) in get_view_products.results"
+        :key="index"
+      >
+        <v-card width="300" :elevation="hover?12:2">
+          <v-img aspect-ratio="1" :src="getCover(product.product_images)">
+            <v-expand-transition>
+              <div
+                v-if="hover"
+                class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
+                style="height: 100%;"
+              >{{"P"+product.price}}</div>
+            </v-expand-transition>
+          </v-img>
+          <v-card-text>{{product.name}}</v-card-text>
+          <v-card-actions>
+            <v-btn
+              text
+              :to="{
+                    name: 'productDetails',
+                    params: { productId: product.id },
+                  }"
+              color="yellow darken-2"
+            >more...</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn icon color="primary" depressed>
+              <v-icon>mdi-cart-plus</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-hover>
+    </v-row>
+    <v-row justify="center">
+      <v-pagination v-model="search.number" @input="getProducts()" class="my-4" :length="pageCount"></v-pagination>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+import { GetCoverImage } from "../../scripts/otherScripts";
+export default {
+  data: () => ({
+    categories: [],
+    search: {
+      search: "",
+      businesses: "",
+      productCategory: [],
+      minPrice: 0,
+      maxPrice: "",
+      number: 1
+    }
+  }),
+  methods: {
+    ...mapActions(["getViewProducts"]),
+    getProducts() {
+      (this.search.businesses = this.get_business.id),
+        this.getViewProducts(this.search);
+    },
+    getCover(images) {
+      if (images.length > 0) {
+        return GetCoverImage(images);
+      } else {
+        return require("../../assets/dummy/productDummy.png");
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(["get_view_products", "get_business"]),
+    pageCount() {
+      return this.get_view_products.count > 0
+        ? Math.ceil(this.get_view_products.count / 10)
+        : 0;
+    }
+  },
+  mounted() {
+    this.getProducts();
+  }
+};
+</script>
+
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>

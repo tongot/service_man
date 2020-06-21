@@ -5,7 +5,7 @@
     </div>
     <div
       v-html="get_business.profile.about"
-      class="d-flex justify-center grey--text"
+      class="justify-center grey--text"
       style="text-align: center;"
     ></div>
     <div class="d-flex justify-center mb-5">

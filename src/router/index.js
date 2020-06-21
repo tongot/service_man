@@ -19,7 +19,12 @@ import BusinessOrders from "../components/Business/BusinessOrders";
 import Business from "../views/Business.vue";
 import portalBusiness from "../views/PortalPage/businessPortal";
 import CreateAbout from "../components/Business/CreateAbout";
+
+//store
 import store from "../views/Store";
+import storeHome from "../components/Store/homeStore";
+import storeAbout from "../components/Store/aboutStore";
+import storeProducts from "../components/Store/productStore";
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,6 +37,28 @@ const routes = [
     path: "/store/:storename/:businessId",
     name: "store",
     component: store,
+    children: [
+      {
+        path: "home",
+        name: "store-home",
+        component: storeHome,
+      },
+      {
+        path: "about",
+        name: "store-about",
+        component: storeAbout,
+      },
+      {
+        path: "products",
+        name: "store-products",
+        component: storeProducts,
+      },
+      /*  {
+        path: "contact",
+        name: "store-contact",
+        component: store,
+      }*/
+    ],
   },
   {
     path: "/main",

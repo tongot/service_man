@@ -115,7 +115,7 @@ export default {
     ...mapActions(["getBusinessSearch", "showLogIn,", "postRating"]),
     gotoBusiness(businessId, name) {
       this.$router.push({
-        name: "store",
+        name: "store-home",
         params: { businessId: businessId, storename: name.trim() }
       });
     },

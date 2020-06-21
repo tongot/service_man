@@ -22,7 +22,9 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    <router-view></router-view>
+    <transition name="moveUP" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </v-app>
 </template>
 
@@ -58,3 +60,30 @@ export default {
   }
 };
 </script>
+<style>
+.moveUP-enter-active {
+  animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  0% {
+    opacity: 0.5;
+  }
+  0% {
+    opacity: 1;
+  }
+}
+.moveUP-leave-active {
+  animation: moveUP 0.3s ease-in;
+}
+@keyframes moveUP {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-400px);
+  }
+}
+</style>

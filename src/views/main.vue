@@ -10,7 +10,9 @@
         </v-btn>
       </v-flex>
     </v-toolbar>
-    <router-view></router-view>
+    <transition name="moveUP" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </v-container>
 </template>
 <script>

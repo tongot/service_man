@@ -13,17 +13,17 @@
       ></v-carousel-item>
     </v-carousel>
     <v-card style="background: rgba(0,0,0,.7);" class="div-container" flat>
-      <v-toolbar dark color="orange" flat>
+      <v-toolbar dark :color="get_business.profile.main_color" flat>
         <v-toolbar-title></v-toolbar-title>
         <v-avatar>
           <v-img width="400" src="https://cdn.vuetifyjs.com/images/cards/store.jpg"></v-img>
         </v-avatar>
-        <v-chip large outlined class="display-1">Groove Tek</v-chip>
+        <v-chip large outlined class="display-1">{{get_business.name}}</v-chip>
 
-        <v-btn small text @click="component='home'">home</v-btn>
-        <v-btn small text @click="component='about'">about</v-btn>
-        <v-btn small text @click="component=home">products</v-btn>
-        <v-btn small text @click="component=home">contact us</v-btn>
+        <v-btn small text :to="{name:'store-home'}">home</v-btn>
+        <v-btn small text :to="{name:'store-about'}">about</v-btn>
+        <v-btn small text :to="{name:'store-products'}">products</v-btn>
+        <v-btn small text :to="{name:'store-contact'}">contact us</v-btn>
         <v-spacer></v-spacer>
 
         <v-btn fab class="mx-1 font-weight-light">
@@ -39,20 +39,15 @@
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-toolbar>
-
-      <component class="mb-4" :is="component"></component>
+      <transition name="slide" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </v-card>
   </v-card>
 </template>
 <script>
-import home from "../components/Store/homeStore";
-import about from "../components/Store/aboutStore";
 import { mapActions, mapGetters } from "vuex";
 export default {
-  components: {
-    home,
-    about
-  },
   data: () => ({
     component: "home",
     currentImage: -1,
@@ -94,6 +89,15 @@ export default {
 };
 </script>
 <style  scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 500ms, transform 500ms;
+}
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+}
 .div-container {
   margin-top: -700px;
   margin-left: 100px;
