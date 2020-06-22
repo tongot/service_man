@@ -16,13 +16,14 @@
       <v-toolbar dark :color="get_business.profile.main_color" flat>
         <v-toolbar-title></v-toolbar-title>
         <v-avatar>
-          <v-img width="400" src="https://cdn.vuetifyjs.com/images/cards/store.jpg"></v-img>
+          <v-img width="400" :src="get_business.business_logo"></v-img>
         </v-avatar>
         <v-chip large outlined class="display-1">{{get_business.name}}</v-chip>
 
         <v-btn small text :to="{name:'store-home'}">home</v-btn>
         <v-btn small text :to="{name:'store-about'}">about</v-btn>
         <v-btn small text :to="{name:'store-products'}">products</v-btn>
+        <v-btn small text :to="{name:'store-reviews'}">reviews</v-btn>
         <v-btn small text :to="{name:'store-contact'}">contact us</v-btn>
         <v-spacer></v-spacer>
 

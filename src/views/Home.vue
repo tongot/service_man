@@ -63,7 +63,7 @@
                   :key="index"
                 >
                   <v-card width="300" :elevation="hover?12:2">
-                    <v-img aspect-ratio="1" src="@/assets/dummy/productDummy.png">
+                    <v-img aspect-ratio="1" :src="getCover(product.product_images)">
                       <v-expand-transition>
                         <div
                           v-if="hover"
@@ -94,6 +94,7 @@
 <script>
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
+import { GetCoverImage } from "../scripts/otherScripts";
 export default {
   name: "Home",
   data: () => ({
@@ -165,8 +166,16 @@ export default {
     postSearch() {
       this.setSearchValue(this.search);
       this.$router.push({ name: "product-list" });
+    },
+    getCover(images) {
+      if (images.length > 0) {
+        return GetCoverImage(images);
+      } else {
+        return require("../assets/dummy/productDummy.png");
+      }
     }
   },
+
   computed: mapGetters(["get_home_products"]),
   mounted() {
     this.getProductCategory()

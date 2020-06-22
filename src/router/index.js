@@ -25,6 +25,8 @@ import store from "../views/Store";
 import storeHome from "../components/Store/homeStore";
 import storeAbout from "../components/Store/aboutStore";
 import storeProducts from "../components/Store/productStore";
+import commentsAndReviews from "../components/Store/commentsAndReviews";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -53,11 +55,11 @@ const routes = [
         name: "store-products",
         component: storeProducts,
       },
-      /*  {
-        path: "contact",
-        name: "store-contact",
-        component: store,
-      }*/
+      {
+        path: "review",
+        name: "store-reviews",
+        component: commentsAndReviews,
+      },
     ],
   },
   {

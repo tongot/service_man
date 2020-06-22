@@ -112,7 +112,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["getBusinessSearch", "showLogIn,", "postRating"]),
+    ...mapActions(["getBusinessSearch", "showLogIn", "postRating"]),
     gotoBusiness(businessId, name) {
       this.$router.push({
         name: "store-home",
@@ -154,18 +154,14 @@ export default {
       this.stars_clicked = id;
     },
     postReview() {
-      if (this.get_user != null) {
-        this.review.number_of_stars = this.stars_clicked;
-        this.review.comment = this.comment;
-        this.review.user = this.get_user.id;
-        this.postLoading = true;
-        this.postRating(this.review).then(() => {
-          this.postLoading = false;
-          this.dialog_rate = false;
-        });
-      } else {
-        this.showLogIn();
-      }
+      this.review.number_of_stars = this.stars_clicked;
+      this.review.comment = this.comment;
+      //this.review.user = this.get_user.id;
+      this.postLoading = true;
+      this.postRating(this.review).then(() => {
+        this.postLoading = false;
+        this.dialog_rate = false;
+      });
     },
     cancel() {
       this.rate_stars.forEach(item => {
