@@ -13,7 +13,7 @@
       ></v-carousel-item>
     </v-carousel>
     <v-card style="background: rgba(0,0,0,.7);" class="div-container" flat>
-      <v-toolbar dark :color="get_business.profile.main_color" flat>
+      <v-toolbar dark :color="getBarColor(get_business.profile)" flat>
         <v-toolbar-title></v-toolbar-title>
         <v-avatar>
           <v-img width="400" :src="get_business.business_logo"></v-img>
@@ -71,6 +71,11 @@ export default {
       }
       console.log(this.currentImage);
       console.log("hit");
+    },
+    getBarColor(profile) {
+      if (profile !== null) {
+        return profile.main_color;
+      } else return "transparent";
     },
     startImageSwap() {
       this.interval = setInterval(() => this.setImage(), 3000);

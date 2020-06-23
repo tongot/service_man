@@ -3,11 +3,18 @@ import axios from "axios";
 const state = {
   rating: null,
   comments: [],
+  rating_dialog: false,
+  rateId: 0,
 };
 const getters = {
   get_comments: (state) => state.comments,
+  get_rating_dialog: (state) => state.rating_dialog,
 };
 const actions = {
+  openRatingDialog({ commit }, id) {
+    commit("set_rateId", id);
+    state.rating_dialog = !state.rating_dialog;
+  },
   async postRating({ commit }, comment) {
     let response;
     try {
@@ -15,12 +22,11 @@ const actions = {
         comment: comment.comment,
         stars: comment.number_of_stars > 0 ? comment.number_of_stars : 0,
         user: comment.user,
-        business: comment.businessId,
+        business: state.rateId,
       });
     } catch (error) {
       console.log(error.response);
     }
-
     try {
       commit("set_rating", response.data);
       return await response;
@@ -48,6 +54,7 @@ const actions = {
 const mutations = {
   set_rating: (state, data) => (state.rating = data),
   set_comments: (state, data) => (state.comments = data),
+  set_rateId: (state, data) => (state.rateId = data),
 };
 
 export default {

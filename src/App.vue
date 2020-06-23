@@ -5,6 +5,7 @@
     <userBar />
     <snackBar />
     <message />
+    <rating />
     <v-app-bar app dark color="primary">
       <v-toolbar-title>
         <v-btn text :to="{name:'Home'}">
@@ -34,6 +35,7 @@ import { mapGetters, mapActions } from "vuex";
 import userBar from "./components/Account/UserSidebar";
 import snackBar from "./components/OrderSnackBar";
 import message from "./components/Messaging";
+import rating from "./components/Reviews/SendReview";
 //import MainNavigation from './components/MainNavigation'
 
 export default {
@@ -42,7 +44,8 @@ export default {
     login,
     userBar,
     snackBar: snackBar,
-    message
+    message,
+    rating
   },
 
   data: () => ({

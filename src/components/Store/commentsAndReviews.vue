@@ -12,8 +12,8 @@
       <v-divider></v-divider>
       <v-row>
         <v-col cols="8" sm="12" md="8">
+          <v-btn small depressed color="grey lighten-2">Leave a comment</v-btn>
           <v-card class="ml-1" flat v-for="comment in  get_comments" :key="comment.id">
-            <v-btn small depressed color="grey lighten-2">Leave a comment</v-btn>
             <v-card-text>
               <h5 class="blue--text">{{comment.user}}</h5>
               <p class="ml-2">{{comment.comment}}</p>
@@ -35,8 +35,8 @@
           </v-card>
         </v-col>
         <v-col cols="4" sm="12" md="4">
+          <v-btn small depressed color="grey lighten-2">Rate us</v-btn>
           <v-card flat class="mr-1">
-            <v-btn small depressed color="grey lighten-2">Rate us</v-btn>
             <v-card-text>
               <v-card class="pa-2">
                 <h5 class="blue--text">Takudzwa</h5>
