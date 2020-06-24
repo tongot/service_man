@@ -6,6 +6,7 @@
     <snackBar />
     <message />
     <rating />
+    <comment />
     <v-app-bar app dark color="primary">
       <v-toolbar-title>
         <v-btn text :to="{name:'Home'}">
@@ -36,6 +37,7 @@ import userBar from "./components/Account/UserSidebar";
 import snackBar from "./components/OrderSnackBar";
 import message from "./components/Messaging";
 import rating from "./components/Reviews/SendReview";
+import comment from "./components/Reviews/comment";
 //import MainNavigation from './components/MainNavigation'
 
 export default {
@@ -45,7 +47,8 @@ export default {
     userBar,
     snackBar: snackBar,
     message,
-    rating
+    rating,
+    comment
   },
 
   data: () => ({

@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <v-carousel cycle height="900" hide-delimiters show-arrows-on-hover>
+    <v-carousel style="position:absolute;" cycle height="900" hide-delimiters show-arrows-on-hover>
       <v-carousel-item
         v-for="(item,i) in images"
         :key="i"
@@ -73,7 +73,7 @@ export default {
       console.log("hit");
     },
     getBarColor(profile) {
-      if (profile !== null) {
+      if (typeof profile !== "undefined") {
         return profile.main_color;
       } else return "transparent";
     },
@@ -105,7 +105,7 @@ export default {
   transform: translateX(-30%);
 }
 .div-container {
-  margin-top: -700px;
+  margin-top: 50px;
   margin-left: 100px;
   margin-right: 100px;
 }

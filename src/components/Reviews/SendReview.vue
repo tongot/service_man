@@ -62,7 +62,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["openRatingDialog", "postRating"]),
+    ...mapActions(["openRatingDialog", "postRating", "notify"]),
     closeModalRate() {
       this.commented = false;
       this.openRatingDialog(0);
@@ -127,7 +127,13 @@ export default {
         this.postLoading = false;
         this.stars_clicked = 0;
         this.comment = "";
+        this.notify({
+          text: "Thank you for leaving you comment",
+          color: "success",
+          open: true
+        });
         this.openRatingDialog(0);
+        this.$router.go();
       });
     }
   },
