@@ -563,8 +563,6 @@ export default {
         this.alert.text = "No director(s) provided";
         return;
       }
-      console.log(JSON.stringify(this.business.directors));
-      console.log(this.business);
       if (this.$refs.form_data.validate()) {
         this.loading = true;
         let response;

@@ -4,7 +4,7 @@
       <v-row class="justify-space-around align-start">
         <v-hover
           v-slot:default="{hover}"
-          v-for="business in get_search_business"
+          v-for="business in get_search_business.results"
           :key="business.id"
         >
           <v-card

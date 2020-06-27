@@ -1,15 +1,18 @@
 <template>
   <v-container>
-    <v-card>
+     <v-card>
       <v-card-title>
         Our business reviews
         <v-spacer></v-spacer>
-        <span>Avarage rating {{rate()}}</span>
-        <v-icon
+        <span v-if="rate()>0">Avarage rating {{rating}}</span>
+<span v-if="rate()>0">
+    <v-icon
           color="yellow darken-3"
           v-for="(start,index) in Math.round( rate())"
           :key="index"
         >mdi-star</v-icon>
+</span>
+      
       </v-card-title>
 
       <v-divider></v-divider>
@@ -22,6 +25,7 @@
               <p class="ml-2">{{comment.comment}}</p>
 
               <h4 class="ma-4">Responses</h4>
+             
               <v-card flat class="ml-5" v-for="(reply,index) in comment.replies" :key="index">
                 <v-card-text>
                   <h5 class="blue--text">{{reply.username}}</h5>
@@ -37,6 +41,7 @@
         <v-col cols="4" sm="12" md="4">
           <v-btn small depressed @click="openRatingModal()" color="grey lighten-2">Rate us</v-btn>
           <span v-if="get_ratings!==null">
+            <span v-if="get_ratings.ratings!==null">
             <v-card v-for="rate in get_ratings.ratings" :key="rate.id" flat class="mr-1">
               <v-card-text>
                 <v-card class="pa-2">
@@ -48,6 +53,7 @@
                 </v-card>
               </v-card-text>
             </v-card>
+            </span>
           </span>
         </v-col>
       </v-row>

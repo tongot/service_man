@@ -16,21 +16,18 @@ import BusinessProfile from "./modules/BusinessProfile";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {
-    Account,
-    Associate,
-    OwnBusiness,
-    OwnProduct,
-    sizedPicture,
-    ProductsView,
-    Ordering,
-    snackBar,
-    Message,
-    commentsReviews,
-    home,
-    BusinessProfile,
-  },
+    modules: {
+        Account,
+        Associate,
+        OwnBusiness,
+        OwnProduct,
+        sizedPicture,
+        ProductsView,
+        Ordering,
+        snackBar,
+        Message,
+        commentsReviews,
+        home,
+        BusinessProfile
+    }
 });

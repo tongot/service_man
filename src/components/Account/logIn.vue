@@ -66,7 +66,7 @@
                         outlined
                         label="Email"
                         v-model="register_user.user.email"
-                        :rules="[rules.required]"
+                        :rules="[rules.required,rules.email]"
                       ></v-text-field>
 
                       <v-text-field

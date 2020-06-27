@@ -20,6 +20,7 @@
         placeholder="Search any descriptive word"
         v-model="search"
         @keyup.enter="searching()"
+        @keyup="clearSearch()"
       ></v-text-field>
       <v-btn @click="searching()" depressed class="ml-2">search</v-btn>
     </v-toolbar>
@@ -93,7 +94,7 @@
         <template v-slot:activator="{ on }">
           <v-card width="250" height="400" outlined class="ma-4" v-on="on">
             <v-img :src="getCover(product.product_images)" aspect-ratio="1" width="250"></v-img>
-
+            <v-divider></v-divider>
             <v-card-title>
               <v-flex>
                 <h3 class="body-2">{{ product.name }}</h3>
@@ -192,7 +193,8 @@ export default {
       "notify",
       "addToSearch",
       "getLocations",
-      "getBusinessSearch"
+      "getBusinessSearch",
+      "setSearchValue"
     ]),
     getCover(images) {
       if (images.length > 0) {
@@ -219,8 +221,10 @@ export default {
       category.selected = false;
       this.addToSearch(category);
     },
+    //reset search if texbox is empty
     clearSearch() {
       if (this.search === "") {
+        this.setSearchValue("");
         this.searchValues.page = 1;
         this.getProd();
       }
@@ -237,13 +241,14 @@ export default {
       this.loadingBusinesses = true;
       this.getBusinessSearch({ search: this.location, category: "" }).then(
         data => {
-          data.forEach(element => {
+          data.results.forEach(element => {
             this.businesses.push(element.name + "," + element.id);
           });
           this.loadingBusinesses = false;
         }
       );
     },
+
     searchFilter() {
       this.getProd();
     },
@@ -256,7 +261,6 @@ export default {
         });
       }
       businesses.join();
-      console.log(this.get_search_category);
       this.getViewProducts({
         number: this.page,
         search: this.search,
@@ -300,7 +304,7 @@ export default {
     this.loadingBusinesses = true;
     this.getBusinessSearch({ search: this.location, category: "" }).then(
       data => {
-        data.forEach(element => {
+        data.results.forEach(element => {
           this.businesses.push(element.name + "," + element.id);
         });
         this.loadingBusinesses = false;

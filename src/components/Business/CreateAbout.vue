@@ -25,8 +25,19 @@
         <h2>Select your business main color below</h2>
         <v-divider></v-divider>
         <v-row>
-          <v-col class="d-flex justify-center">
-            <v-color-picker v-model="about.color"></v-color-picker>
+          <v-col cols="12" md="6">
+            <v-card outlined class="pa-2">
+              <v-card-title>select color</v-card-title>
+              <v-color-picker v-model="about.color"></v-color-picker>
+            </v-card>
+          </v-col>
+          <v-col md="6" cols="12">
+            <v-card outlined class="pa-2">
+              <v-card-title>payments and delivery</v-card-title>
+              <v-checkbox label="Deliver out side my country"></v-checkbox>
+              <v-text-field outlined></v-text-field>
+              <v-text-field outlined></v-text-field>
+            </v-card>
           </v-col>
         </v-row>
       </v-card-text>
