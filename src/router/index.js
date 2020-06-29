@@ -51,24 +51,24 @@ const routes = [
         component: register
     },
     {
-        path: "/store/:storename/:businessId",
+        path: "/store",
         name: "store",
         component: Store,
         children: [
             {
-                path: "home",
+                path: ":businessId/home",
                 name: "store-home",
                 component: storeHome
             }, {
-                path: "about",
+                path: ":businessId/about",
                 name: "store-about",
                 component: storeAbout
             }, {
-                path: "products",
+                path: ":businessId/products",
                 name: "store-products",
                 component: storeProducts
             }, {
-                path: "review",
+                path: ":businessId/review",
                 name: "store-reviews",
                 component: commentsAndReviews
             },
@@ -79,7 +79,7 @@ const routes = [
         component: Main,
         children: [
             {
-                path: "/Products",
+                path: "Products",
                 name: "Products",
                 component: Products,
                 children: [
@@ -98,7 +98,7 @@ const routes = [
                     },
                 ]
             }, {
-                path: "/Business",
+                path: "Business",
                 name: "Business",
                 component: Business,
                 children: [
@@ -109,7 +109,7 @@ const routes = [
                     },
                 ]
             }, {
-                path: "/Portal",
+                path: "Portal",
                 name: "portal",
                 component: Portal,
                 beforeEnter: (to, from, next) => {

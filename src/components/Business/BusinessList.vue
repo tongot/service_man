@@ -63,10 +63,10 @@ export default {
       "openRatingDialog",
       "showLogIn"
     ]),
-    gotoBusiness(businessId, name) {
+    gotoBusiness(businessId) {
       this.$router.push({
         name: "store-home",
-        params: { businessId: businessId, storename: name.trim() }
+        params: { businessId: businessId }
       });
     },
     openModalRate(id) {

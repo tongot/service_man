@@ -1,31 +1,23 @@
-const state={
-    snackBar:{
-    open:false,
-    color:'success',
-    timeout:6000,
-    y:'bottom',
-    x:'right',
-    text:"hello snack"
-}
-}
-const getters={
-    get_snack:(state)=>state.snackBar
-}
-const actions={
-    notify({commit},notification){
-        commit('set_snack',notification)
+const state = {
+    snackBar: {
+        open: false,
+        color: 'success',
+        timeout: 6000,
+        y: 'bottom',
+        text: "hello snack"
     }
 }
-const mutations={
-    set_snack:(state,data)=>(
-        state.snackBar.open=data.open,
-        state.snackBar.color= data.color,
-        state.snackBar.text = data.text
-        )
+const getters = {
+    get_snack: (state) => state.snackBar
 }
-export default{
-    state,
-    getters,
-    actions,
-    mutations,
+const actions = {
+    notify({
+        commit
+    }, notification) {
+        commit('set_snack', notification)
+    }
 }
+const mutations = {
+    set_snack: (state, data) => (state.snackBar.open = data.open, state.snackBar.color = data.color, state.snackBar.text = data.text, state.snackBar.y = data.y)
+}
+export default {state, getters, actions, mutations}

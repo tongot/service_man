@@ -206,6 +206,24 @@ export default {
     ...mapActions(["login", "Register", "showLogIn", "getCountries"]),
     //__________________login___________________________
     async postLogin() {
+      fetch(
+        "https://currency-rate-converter.p.rapidapi.com/convertcurrency?to=USD&amount=10&from=BWP",
+        {
+          method: "GET",
+          headers: {
+            "x-rapidapi-host": "currency-rate-converter.p.rapidapi.com",
+            "x-rapidapi-key":
+              "f0fc5e55a0msh708716e5f3f471ap1b1cacjsn407766db3dca"
+          }
+        }
+      )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      /*
       if (this.$refs.login.validate()) {
         this.loading = true;
         let data;
@@ -224,7 +242,7 @@ export default {
           this.errors.type = "error";
           this.loading = false;
         }
-      }
+      }*/
     },
     //___________________________________register_____________________________
     async register() {

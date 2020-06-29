@@ -12,6 +12,7 @@ import Message from "./modules/Message";
 import commentsReviews from "./modules/commentsReviews";
 import home from "./modules/home";
 import BusinessProfile from "./modules/BusinessProfile";
+import Cart from "./modules/Cart"
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
         Message,
         commentsReviews,
         home,
-        BusinessProfile
+        BusinessProfile,
+        Cart
     }
 });

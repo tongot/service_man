@@ -26,16 +26,58 @@
         <v-btn small text :to="{name:'store-reviews'}">reviews</v-btn>
         <v-btn small text :to="{name:'store-contact'}">contact us</v-btn>
         <v-spacer></v-spacer>
+        <!--
+  Cart view
+        -->
+        <v-menu transition="slide-x-transition" bottom left :close-on-content-click="false">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon dark v-bind="attrs" v-on="on">
+              <v-badge :content="get_cart_items.items.length">
+                <v-icon>mdi-cart</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <v-card width="400">
+            <v-list>
+              <v-list-item-group>
+                <v-list-item v-for="(item, index) in get_cart_items.items" :key="index">
+                  <v-list-item-icon>
+                    <v-icon>mdi-tag</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>{{ item.productName }}</v-list-item-title>
+                  <v-list-item-action>
+                    <span class="subtitle">{{"P "+item.price}}</span>
+                    <v-btn @click="removeItemFromCart(index)" small depressed fab color="error">
+                      <v-icon>mdi-minus</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+            <v-card-actions>
+              <v-chip pill color="success">
+                <span>
+                  <strong>{{"Total :"+get_cart_items.totalPrice}}</strong>
+                </span>
+              </v-chip>
+
+              <v-spacer></v-spacer>
+              <v-btn depressed color="primary" :disabled="checkOutEnabled()">check out</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
 
         <v-btn fab class="mx-1 font-weight-light">
           <v-icon>mdi-facebook</v-icon>
         </v-btn>
+
         <v-btn fab class="mx-1">
           <v-icon>mdi-instagram</v-icon>
         </v-btn>
         <v-btn fab class="mx-1">
           <v-icon>mdi-twitter</v-icon>
         </v-btn>
+
         <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
@@ -50,6 +92,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
+    total: 0,
     component: "home",
     currentImage: -1,
     displayImage: "",
@@ -60,7 +103,23 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["getBusinessById"]),
+    ...mapActions([
+      "getBusinessById",
+      "setCart",
+      "resetCart",
+      "notify",
+      "resetCart",
+      "removeFromCart"
+    ]),
+    checkOutEnabled() {
+      return this.get_cart_items.items.length > 0 ? false : true;
+    },
+    removeItemFromCart(index) {
+      this.removeFromCart(index);
+    },
+    getTotal(price) {
+      this.total += price;
+    },
     setImage() {
       this.currentImage++;
       if (this.currentImage <= this.images.length - 1) {
@@ -69,8 +128,6 @@ export default {
         this.currentImage = 0;
         this.displayImage = this.images[this.currentImage];
       }
-      console.log(this.currentImage);
-      console.log("hit");
     },
     getBarColor(profile) {
       if (typeof profile !== "undefined") {
@@ -82,15 +139,54 @@ export default {
     },
     stopInterval() {
       clearInterval(this.interval);
+    },
+    getCartValues() {
+      let businessId = this.$route.params.businessId;
+      let cart = this.get_cart_items.items;
+      if (cart != null) {
+        this.get_cart_items.items.filter(item => {
+          item.businessId == businessId;
+        });
+        return cart.items.length;
+      }
+      return "0";
     }
   },
-  computed: mapGetters(["get_business"]),
+  computed: mapGetters(["get_business", "get_cart_items"]),
   mounted() {
-    //this.startImageSwap("start");
-    this.getBusinessById(this.$route.params.businessId);
+    let businessId = this.$route.params.businessId;
+    this.getBusinessById(businessId);
+    //get the current cart and check if it belonges to the navigated to store
+    let currentCart = localStorage.getItem("cart");
+    if (currentCart != null) {
+      currentCart = JSON.parse(currentCart);
+      currentCart.businessId == businessId ? this.setCart() : this.resetCart();
+    }
   },
   beforeDestroy() {
     //this.stopInterval();
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.get_cart_items.items.length > 0) {
+      const answer = window.confirm(
+        "Note that you have not yet checked out from this store your cart will be automatically empted!"
+      );
+      if (answer) {
+        localStorage.removeItem("cart");
+        this.resetCart();
+        this.notify({
+          text: "Cart empted",
+          color: "alert",
+          y: "top",
+          open: true
+        });
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
+    }
   }
 };
 </script>

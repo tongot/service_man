@@ -14,7 +14,7 @@
     <v-img aspect-ratio="1.9" cols="12" src="@/assets/dummy/bkg-home.jpg">
       <v-row justify="center">
         <v-col cols="6">
-          <v-form class="d-flex justify-center" @submit="postSearch()">
+          <v-form class="d-flex justify-center">
             <v-autocomplete
               color="blue"
               v-model="select"

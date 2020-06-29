@@ -42,7 +42,7 @@
               color="yellow darken-2"
             >more...</v-btn>
             <v-spacer></v-spacer>
-            <v-btn icon color="primary" depressed>
+            <v-btn icon color="primary" @click="addItemToCart(index)" depressed>
               <v-icon>mdi-cart-plus</v-icon>
             </v-btn>
           </v-card-actions>
@@ -71,9 +71,9 @@ export default {
     }
   }),
   methods: {
-    ...mapActions(["getViewProducts"]),
+    ...mapActions(["getViewProducts", "addToCart", "notify"]),
     getProducts() {
-      (this.search.businesses = this.get_business.id),
+      (this.search.businesses = this.$route.params.businessId),
         this.getViewProducts(this.search);
     },
     getCover(images) {
@@ -82,10 +82,34 @@ export default {
       } else {
         return require("../../assets/dummy/productDummy.png");
       }
+    },
+    addItemToCart(index) {
+      let product = this.get_view_products.results[index];
+      const item = {
+        businessId: product.business,
+        item: {
+          productId: product.id,
+          productName: product.name,
+          price: product.price
+        }
+      };
+      let existing = this.get_cart_items.items.filter(
+        item => item.productId == product.id
+      );
+      if (existing.length < 1) {
+        this.addToCart(item);
+      } else {
+        this.notify({
+          text: "This item is already in cart",
+          color: "error",
+          open: true,
+          y: "top"
+        });
+      }
     }
   },
   computed: {
-    ...mapGetters(["get_view_products", "get_business"]),
+    ...mapGetters(["get_view_products", "get_business", "get_cart_items"]),
     pageCount() {
       return this.get_view_products.count > 0
         ? Math.ceil(this.get_view_products.count / 10)
