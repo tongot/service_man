@@ -1,19 +1,17 @@
 <template>
   <v-card flat class="mt-5">
     <v-row justify="center" class="mt-5">
-      <v-chip class="ml-1 pa-2" color="primary lighten-3">
-        <v-chip
-          v-for="(pcategory,i) in listOfCategories"
-          :key="i"
-          pill
-          class="ma-2"
-          color="primary"
-        >{{pcategory.category.name}}</v-chip>
+      <v-chip class="mt-5 pa-2" color="primary lighten-3">
+        <div class="div-overflow">
+          <span v-for="(pcategory,i) in listOfCategories" :key="i">
+            <v-chip class="text-capitalize">{{pcategory.category.name}}</v-chip>
+          </span>
+        </div>
       </v-chip>
     </v-row>
     <v-img aspect-ratio="1.9" cols="12" src="@/assets/bkg-home.jpg">
       <v-row justify="center">
-        <v-col cols="6">
+        <v-col cols="12" md="6" sm="12">
           <v-form class="d-flex justify-center">
             <v-autocomplete
               color="blue"
@@ -51,31 +49,10 @@
         <v-col cols="10" v-for="(category,index) in listOfCategories" :key="category.id">
           <v-card color="grey--text" class="pa-2" elevation="6">
             <v-card-title>{{category.category.name}}</v-card-title>
-            <v-card class="d-flex align-center" style="overflow: auto;">
+            <v-card-text>
               <v-btn icon class="prev-btn" @click="prev(category.category.id,index)">
                 <v-icon>mdi-chevron-left</v-icon>
               </v-btn>
-              <v-col class="d-flex">
-                <v-hover
-                  v-slot:default="{ hover }"
-                  class="mx-4"
-                  v-for="(product,index) in category.products.items"
-                  :key="index"
-                >
-                  <v-card width="300" :elevation="hover?12:2">
-                    <v-img aspect-ratio="1" :src="getCover(product.product_images)">
-                      <v-expand-transition>
-                        <div
-                          v-if="hover"
-                          class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
-                          style="height: 100%;"
-                        >{{"P"+product.price}}</div>
-                      </v-expand-transition>
-                    </v-img>
-                    <v-card-text>{{product.name}}</v-card-text>
-                  </v-card>
-                </v-hover>
-              </v-col>
               <v-btn
                 icon
                 class="next-btn"
@@ -83,7 +60,30 @@
               >
                 <v-icon>mdi-chevron-right</v-icon>
               </v-btn>
-            </v-card>
+              <v-card class="d-flex align-center" style="overflow: auto;">
+                <v-col class="d-flex">
+                  <v-hover
+                    v-slot:default="{ hover }"
+                    class="mx-4"
+                    v-for="(product,index) in category.products.items"
+                    :key="index"
+                  >
+                    <v-card width="300" :elevation="hover?12:2">
+                      <v-img aspect-ratio="1" :src="getCover(product.product_images)">
+                        <v-expand-transition>
+                          <div
+                            v-if="hover"
+                            class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
+                            style="height: 100%;"
+                          >{{"P"+product.price}}</div>
+                        </v-expand-transition>
+                      </v-img>
+                      <v-card-text>{{product.name}}</v-card-text>
+                    </v-card>
+                  </v-hover>
+                </v-col>
+              </v-card>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>

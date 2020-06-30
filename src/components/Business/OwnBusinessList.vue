@@ -140,19 +140,4 @@ export default {
 };
 </script>
 <style scoped>
-.div-overflow {
-  width: 100%;
-  height: 45px;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-::-webkit-scrollbar {
-  height: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(255, 255, 255);
-  border-radius: 15px;
-}
 </style>

@@ -6,10 +6,11 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "https://tktongo.pythonanywhere.com";
+axios.defaults.baseURL = "http://tktongo.pythonanywhere.com";
 if (localStorage.getItem("action") !== null) {
     axios.defaults.headers.common["Authorization"] = "Token " + localStorage.getItem("action");
 }
+
 new Vue({
     router,
     store,

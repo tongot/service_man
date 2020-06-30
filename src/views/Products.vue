@@ -13,26 +13,21 @@
       <div :class="sidebar">
         <v-card>
           <v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title class="white--text">Stores</v-card-title>
+            <v-card-title class="white--text">Product Categories</v-card-title>
           </v-img>
           <v-card-text>
             <v-list dense nav>
-              <v-list-group no-action prepend-icon="mdi-group" value>
-                <template v-slot:activator>
-                  <v-list-item-title>Products groups</v-list-item-title>
-                </template>
-                <v-list-item-group>
-                  <v-list-item v-for="prod in get_productCategory" :key="prod.name">
-                    <v-list-item-icon>
-                      <v-icon>mdi-ungroup</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content class="text-capitalize caption">{{prod.name}}</v-list-item-content>
-                    <v-list-item-action>
-                      <input type="checkbox" @change="setSearch(prod)" v-model="prod.selected" />
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list-group>
+              <v-list-item-group>
+                <v-list-item v-for="prod in get_productCategory" :key="prod.name">
+                  <v-list-item-icon>
+                    <v-icon>mdi-ungroup</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content class="text-capitalize caption">{{prod.name}}</v-list-item-content>
+                  <v-list-item-action>
+                    <input type="checkbox" @change="setSearch(prod)" v-model="prod.selected" />
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-item-group>
             </v-list>
           </v-card-text>
         </v-card>
@@ -44,9 +39,9 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   data: () => ({
-    sidebar: "sidebar",
-    content: "content",
-    hidcontent: "hid-content",
+    sidebar: "sidebar-leave",
+    content: "content-leave",
+    hidcontent: "",
     categories: []
   }),
   methods: {

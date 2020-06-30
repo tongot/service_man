@@ -6,18 +6,56 @@
     <rating />
     <comment />
     <v-app-bar flat app dark color="primary">
-      <v-toolbar-title>
-        <v-btn text :to="{name:'Home'}">
-          <v-icon left>mdi-home-circle</v-icon>Service man
-        </v-btn>
-        <v-btn :to="{name:'business-list'}" text small>Stores</v-btn>
-        <v-btn :to="{name:'product-list'}" text small>Products</v-btn>
-        <v-btn text small :to="{name:'my-business'}" v-if="get_user!=null">Portal</v-btn>
+      <v-btn text :to="{name:'Home'}">
+        <v-icon left>mdi-home-circle</v-icon>Service man
+      </v-btn>
+      <v-toolbar-title class="d-none d-sm-flex d-sm-none d-md-flex">
+        <v-btn v-for="(menu,index) in menus" :key="index" :to="menu.name" text small>{{menu.label}}</v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <h4 v-if="get_user!=null">{{get_user.email}}</h4>
+
+      <h4 class="d-none d-sm-flex d-sm-none d-md-flex" v-if="get_user!=null">{{get_user.email}}</h4>
       <v-btn text :to="{name:'login'}" v-if="get_user==null">Signin</v-btn>
       <v-btn @click="user_logout()" text v-if="get_user!=null">Signout</v-btn>
+
+      <v-menu transition="slide-x-transition" bottom right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            class="d-none d-sm-flex d-md-none d-flex d-sm-none"
+            icon
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item-group>
+            <v-list-item class="mb-2" v-if="get_user!=null">
+              <v-avatar color="primary">
+                <span class="white--text text-uppercase">{{get_user.name[0]}}{{get_user.surname[0]}}</span>
+              </v-avatar>
+              <v-chip>{{get_user.email}}</v-chip>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item v-for="(menu,index) in menus" :key="index" :to="menu.name">
+              <v-list-item-title>{{menu.label}}</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="user_logout()" v-if="get_user!=null">
+              <v-list-item-icon>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>Signout</v-list-item-content>
+            </v-list-item>
+            <v-list-item :to="{name:'login'}" v-if="get_user==null">
+              <v-list-item-title>Signin</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
+
       <!--  <v-btn v-if="get_user!=null" @click="openUserBar" icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>-->
@@ -48,6 +86,12 @@ export default {
     rating,
     comment
   },
+  data: () => ({
+    menus: [
+      { label: "Products", name: { name: "product-list" } },
+      { label: "Stores", name: { name: "business-list" } }
+    ]
+  }),
   methods: {
     ...mapActions(["showLogIn", "getUserDetails", "openUserBar", "logout"]),
     user_logout() {
@@ -145,5 +189,21 @@ export default {
   100% {
     transform: translateY(-400px);
   }
+}
+
+.div-overflow {
+  width: 100%;
+  height: 45px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+::-webkit-scrollbar {
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(255, 255, 255);
+  border-radius: 15px;
 }
 </style>

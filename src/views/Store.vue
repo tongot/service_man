@@ -19,12 +19,16 @@
           <v-img width="400" :src="get_business.business_logo"></v-img>
         </v-avatar>
         <v-chip large outlined class="display-1">{{get_business.name}}</v-chip>
+        <span class="d-none d-sm-flex d-sm-none d-md-flex">
+          <v-btn
+            small
+            text
+            v-for="(menu,index) in menus"
+            :to="menu.name"
+            :key="index"
+          >{{menu.label}}</v-btn>
+        </span>
 
-        <v-btn small text :to="{name:'store-home'}">home</v-btn>
-        <v-btn small text :to="{name:'store-about'}">about</v-btn>
-        <v-btn small text :to="{name:'store-products'}">products</v-btn>
-        <v-btn small text :to="{name:'store-reviews'}">reviews</v-btn>
-        <v-btn small text :to="{name:'store-contact'}">contact us</v-btn>
         <v-spacer></v-spacer>
         <!--
   Cart view
@@ -67,20 +71,31 @@
           </v-card>
         </v-menu>
 
-        <v-btn fab class="mx-1 font-weight-light">
-          <v-icon>mdi-facebook</v-icon>
-        </v-btn>
+        <v-menu transition="slide-x-transition" bottom right>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="d-none d-sm-flex d-md-none d-flex d-sm-none"
+              icon
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
 
-        <v-btn fab class="mx-1">
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn fab class="mx-1">
-          <v-icon>mdi-twitter</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item>
+                <v-chip large outlined class="display-1">{{get_business.name}}</v-chip>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item v-for="(menu,index) in menus" :key="index" :to="menu.name">
+                <v-list-item-title>{{menu.label}}</v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
       </v-toolbar>
       <transition name="slide" mode="out-in">
         <router-view></router-view>
@@ -92,6 +107,12 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
+    menus: [
+      { label: "home", name: { name: "store-home" } },
+      { label: "about", name: { name: "store-about" } },
+      { label: "products", name: { name: "store-products" } },
+      { label: "reviews", name: { name: "store-reviews" } }
+    ],
     total: 0,
     component: "home",
     currentImage: -1,
@@ -204,6 +225,13 @@ export default {
   margin-top: 50px;
   margin-left: 100px;
   margin-right: 100px;
+}
+@media (max-width: 800px) {
+  .div-container {
+    margin-top: 50px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }
 .nav {
   list-style-type: none;

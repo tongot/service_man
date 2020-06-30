@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="6" md="6" sm="12">
+    <v-col cols="12" md="6" sm="12">
       <v-card style="background: rgba(0,0,0,.5);" class="mx-auto" width="400">
         <v-row justify="center">
           <v-col>
@@ -12,12 +12,23 @@
             <div class="d-flex justify-center">
               <h4 class="text-uppercase grey--text my-5">{{get_business.name}}</h4>
             </div>
+            <div class="d-flex justify-center">
+              <v-btn fab class="mx-1 font-weight-light">
+                <v-icon>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn fab class="mx-1">
+                <v-icon>mdi-instagram</v-icon>
+              </v-btn>
+              <v-btn fab class="mx-1">
+                <v-icon>mdi-twitter</v-icon>
+              </v-btn>
+            </div>
             <p class="mx-3 grey--text" style="text-align: center;">{{get_business.description}}</p>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <v-col cols="6" md="6" sm="12">
+    <v-col cols="12" md="6" sm="12">
       <v-card style="background: rgba(0,0,0,.5);" class="mx-auto" max-width="700">
         <v-row>
           <v-col>

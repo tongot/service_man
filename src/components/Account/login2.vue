@@ -3,7 +3,7 @@
     <v-row>
       <v-col md="6" sm="12" cols="12" class="picture-container">
         <div class="side-pic"></div>
-        <h4 class="white--text font-weight-thin display-4 header1">Tswaragano</h4>
+        <h4 class="white--text font-weight-thin display-4 header1">Tshwaragano</h4>
       </v-col>
       <v-col md="6" sm="12" cols="12">
         <v-form ref="login" class="registerForm">

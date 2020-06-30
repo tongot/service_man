@@ -1,23 +1,22 @@
 <template>
   <v-container>
-     <v-card>
+    <v-card>
       <v-card-title>
         Our business reviews
         <v-spacer></v-spacer>
-        <span v-if="rate()>0">Avarage rating {{rating}}</span>
-<span v-if="rate()>0">
-    <v-icon
-          color="yellow darken-3"
-          v-for="(start,index) in Math.round( rate())"
-          :key="index"
-        >mdi-star</v-icon>
-</span>
-      
+        <span v-if="rate()>0">{{rating}}</span>
+        <span v-if="rate()>0">
+          <v-icon
+            color="yellow darken-3"
+            v-for="(start,index) in Math.round( rate())"
+            :key="index"
+          >mdi-star</v-icon>
+        </span>
       </v-card-title>
 
       <v-divider></v-divider>
       <v-row>
-        <v-col cols="8" sm="12" md="8">
+        <v-col cols="12" sm="12" md="8">
           <v-btn small depressed color="grey lighten-2" @click="openCommentModal()">Leave a comment</v-btn>
           <v-card class="ml-1" flat v-for="comment in  get_comments" :key="comment.id">
             <v-card-text>
@@ -25,7 +24,7 @@
               <p class="ml-2">{{comment.comment}}</p>
 
               <h4 class="ma-4">Responses</h4>
-             
+
               <v-card flat class="ml-5" v-for="(reply,index) in comment.replies" :key="index">
                 <v-card-text>
                   <h5 class="blue--text">{{reply.username}}</h5>
@@ -38,21 +37,25 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="4" sm="12" md="4">
+        <v-col cols="12" sm="12" md="4">
           <v-btn small depressed @click="openRatingModal()" color="grey lighten-2">Rate us</v-btn>
           <span v-if="get_ratings!==null">
             <span v-if="get_ratings.ratings!==null">
-            <v-card v-for="rate in get_ratings.ratings" :key="rate.id" flat class="mr-1">
-              <v-card-text>
-                <v-card class="pa-2">
-                  <h5 class="blue--text">{{rate.user}}</h5>
-                  <v-card-text>{{rate.comment}}</v-card-text>
-                  <v-card-actions>
-                    <v-icon color="yellow darken-3" v-for="star in rate.stars" :key="star">mdi-star</v-icon>
-                  </v-card-actions>
-                </v-card>
-              </v-card-text>
-            </v-card>
+              <v-card v-for="rate in get_ratings.ratings" :key="rate.id" flat class="mr-1">
+                <v-card-text>
+                  <v-card class="pa-2">
+                    <h5 class="blue--text">{{rate.user}}</h5>
+                    <v-card-text>{{rate.comment}}</v-card-text>
+                    <v-card-actions>
+                      <v-icon
+                        color="yellow darken-3"
+                        v-for="star in rate.stars"
+                        :key="star"
+                      >mdi-star</v-icon>
+                    </v-card-actions>
+                  </v-card>
+                </v-card-text>
+              </v-card>
             </span>
           </span>
         </v-col>

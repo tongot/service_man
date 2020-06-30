@@ -6,7 +6,8 @@
     <!-- main view for the list of the products-->
     <v-chip
       pill
-      class="pa-1 ma-1"
+      :color="search.selected?'blue':''"
+      :class="search.selected?'pa-1 ma-1 white--text':'pa-1 ma-1'"
       v-for="search in get_productCategory"
       :key="search.id"
       @click="setSearch(search)"
@@ -218,8 +219,9 @@ export default {
       this.getProd();
     },
     setSearch(category) {
-      category.selected = false;
+      category.selected = !category.selected;
       this.addToSearch(category);
+      this.searchFilter();
     },
     //reset search if texbox is empty
     clearSearch() {
