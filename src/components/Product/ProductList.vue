@@ -200,7 +200,7 @@ export default {
       if (images.length > 0) {
         return GetCoverImage(images);
       } else {
-        return require("../../assets/dummy/productDummy.png");
+        return require("../../../public/productDummy.png");
       }
     },
     contactSeller(businessId, productId) {

@@ -78,7 +78,7 @@ export default {
     },
     getLogo(logo) {
       if (logo === null) {
-        return require("../../assets/dummy/productDummy.png");
+        return require("../../../public/productDummy.png");
       }
       return logo;
     }

@@ -11,7 +11,7 @@
         >{{pcategory.category.name}}</v-chip>
       </v-chip>
     </v-row>
-    <v-img aspect-ratio="1.9" cols="12" src="@/assets/dummy/bkg-home.jpg">
+    <v-img aspect-ratio="1.9" cols="12" src="@/assets/bkg-home.jpg">
       <v-row justify="center">
         <v-col cols="6">
           <v-form class="d-flex justify-center">
@@ -43,7 +43,7 @@
           <v-card color="grey--text" class="pa-2" elevation="6">
             <v-card-title>Top rated sellers</v-card-title>
             <v-card width="300" elevation="12">
-              <v-img aspect-ratio="1" src="@/assets/dummy/productDummy.png"></v-img>
+              <v-img aspect-ratio="1" src="../../public/productDummy.png"></v-img>
             </v-card>
           </v-card>
         </v-col>
@@ -171,7 +171,7 @@ export default {
       if (images.length > 0) {
         return GetCoverImage(images);
       } else {
-        return require("../assets/dummy/productDummy.png");
+        return require("../../public/productDummy.png");
       }
     }
   },
