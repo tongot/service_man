@@ -7,10 +7,11 @@
     <comment />
     <v-app-bar flat app dark color="primary">
       <v-btn text :to="{name:'Home'}">
-        <v-icon left>mdi-home-circle</v-icon>Service man
+        <v-icon left>mdi-home-circle</v-icon>Tshwaragano
       </v-btn>
       <v-toolbar-title class="d-none d-sm-flex d-sm-none d-md-flex">
         <v-btn v-for="(menu,index) in menus" :key="index" :to="menu.name" text small>{{menu.label}}</v-btn>
+        <v-btn v-if="get_user!=null" text small :to="{name:'my-business'}">Portal</v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -49,8 +50,15 @@
               </v-list-item-icon>
               <v-list-item-content>Signout</v-list-item-content>
             </v-list-item>
+
             <v-list-item :to="{name:'login'}" v-if="get_user==null">
               <v-list-item-title>Signin</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{name:'my-business'}" v-if="get_user!=null">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>Portal</v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
