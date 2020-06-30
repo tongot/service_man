@@ -205,7 +205,7 @@ export default {
     },
     contactSeller(businessId, productId) {
       this.notify({
-        text: "Requesting contact, please wait...",
+        text: "Requesting contact, please wait a bit...",
         color: "warning",
         open: true
       });
