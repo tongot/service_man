@@ -2,19 +2,6 @@
   <v-dialog v-model="get_rating_dialog" width="600" persistent>
     <v-card class="pa-2">
       <v-card-title>
-        Comment
-        <v-spacer></v-spacer>
-        <v-btn icon @click="closeModalRate()">
-          <v-icon color="pink darken-1">mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
-      <span v-if="commented">
-        <v-icon color="pink">mdi-exclamation-thick</v-icon>
-
-        <span class="subtitle pink--text">Please select at list 1 star or give a comment</span>
-      </span>
-      <v-textarea v-model="comment"></v-textarea>
-      <v-card-text class="d-flex justify-end">
         <span class="headline">Rate</span>
         <v-btn
           icon
@@ -26,6 +13,18 @@
         >
           <v-icon :color="rate_star.color">mdi-star</v-icon>
         </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="closeModalRate()">
+          <v-icon color="pink darken-1">mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <span v-if="commented">
+        <v-icon color="pink">mdi-exclamation-thick</v-icon>
+
+        <span class="subtitle pink--text">Please select at list 1 star or give a comment</span>
+      </span>
+      <v-textarea outlined label="Leave your comment" v-model="comment"></v-textarea>
+      <v-card-text class="d-flex justify-end">
         <v-spacer></v-spacer>
         <v-btn @click="cancel()" color="pink darken-1">
           <v-icon>mdi-close-circle</v-icon>cancel

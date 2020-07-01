@@ -1,19 +1,7 @@
 <template>
   <v-card flat>
-    <v-carousel style="position:absolute;" cycle height="900" hide-delimiters show-arrows-on-hover>
-      <v-carousel-item
-        v-for="(item,i) in images"
-        :key="i"
-        :src="item"
-        cycle
-        hide-delimiter-background
-        show-arrows-on-hover
-        reverse-transition="fade-transition"
-        transition="fade-transition"
-      ></v-carousel-item>
-    </v-carousel>
-    <v-card style="background: rgba(0,0,0,.7);" class="div-container" flat>
-      <v-toolbar dark :color="getBarColor(get_business.profile)" flat>
+    <v-card class="div-container" outlined flat>
+      <v-toolbar dark :color="getBarColor(get_business.profile)" height="60" flat>
         <v-toolbar-title></v-toolbar-title>
         <v-avatar>
           <v-img width="400" :src="get_business.business_logo"></v-img>
@@ -222,9 +210,9 @@ export default {
   transform: translateX(-30%);
 }
 .div-container {
-  margin-top: 50px;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-top: 15px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 @media (max-width: 800px) {
   .div-container {

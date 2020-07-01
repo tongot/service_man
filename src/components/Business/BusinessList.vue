@@ -3,7 +3,7 @@
     <div fluid>
       <v-row class="justify-space-around align-start">
         <v-hover
-          v-slot:default="{hover}"
+          v-slot:default="{ hover }"
           v-for="business in get_search_business.results"
           :key="business.id"
         >
@@ -11,14 +11,14 @@
             class="mb-2"
             width="430"
             outlined
-            :elevation="hover? 12 : 1"
-            @click="gotoBusiness(business.id,business.name)"
+            :elevation="hover ? 6 : 0"
+            @click="gotoBusiness(business.id, business.name)"
           >
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="overline mb-4"></div>
-                <v-list-item-title class="headline mb-1">{{business.name}}</v-list-item-title>
-                <v-list-item-subtitle>{{business.description}}</v-list-item-subtitle>
+                <v-list-item-title class="headline mb-1">{{ business.name }}</v-list-item-title>
+                <v-list-item-subtitle>{{ business.description }}</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-img
@@ -44,29 +44,39 @@
           </v-card>
         </v-hover>
       </v-row>
+      <v-row justify="center">
+        <v-pagination
+          v-model="page"
+          @input="getPage()"
+          class="my-4"
+          :length="pageCount"
+        ></v-pagination>
+      </v-row>
     </div>
   </v-card>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex';
 export default {
-  name: "business_list",
+  name: 'business_list',
   data: () => ({
     postLoading: false,
-    dialog_rate: false
+    dialog_rate: false,
+    page: 1,
   }),
   methods: {
     ...mapActions([
-      "getBusinessSearch",
-      "showLogIn",
-      "postRating",
-      "openRatingDialog",
-      "showLogIn"
+      'getBusinessSearch',
+      'showLogIn',
+      'postRating',
+      'openRatingDialog',
+      'showLogIn',
+      'setBusinessSearchValue',
     ]),
     gotoBusiness(businessId) {
       this.$router.push({
-        name: "store-home",
-        params: { businessId: businessId }
+        name: 'store-home',
+        params: { businessId: businessId },
       });
     },
     openModalRate(id) {
@@ -78,14 +88,34 @@ export default {
     },
     getLogo(logo) {
       if (logo === null) {
-        return require("../../../public/productDummy.png");
+        return require('../../../public/productDummy.png');
       }
       return logo;
-    }
+    },
+    getPage() {
+      this.getBusinessSearch({
+        page: this.page,
+        search: this.get_business_search_value,
+        categories: '',
+      });
+    },
   },
-  computed: mapGetters(["get_search_business", "get_locations", "get_user"]),
+  computed: {
+    ...mapGetters([
+      'get_search_business',
+      'get_locations',
+      'get_user',
+      'get_business_search_value',
+    ]),
+    pageCount() {
+      return this.get_search_business.count > 0
+        ? Math.ceil(this.get_search_business.count / 10)
+        : 0;
+    },
+  },
   created() {
-    this.getBusinessSearch({ search: "", categories: "" });
-  }
+    this.setBusinessSearchValue('');
+    this.getBusinessSearch({ page: 1, search: '', categories: '' });
+  },
 };
 </script>

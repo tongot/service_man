@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-4">
+  <v-card flat class="ma-4">
     <div class="d-flex justify-center mb-5">
       <h1 class="display-2 grey--text font-weight-thin">About</h1>
     </div>

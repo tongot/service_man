@@ -12,7 +12,7 @@
         <v-icon color="pink">mdi-exclamation-thick</v-icon>
         <span class="subtitle pink--text">Please enter a comment</span>
       </span>
-      <v-textarea v-model="comment.comment"></v-textarea>
+      <v-textarea label="leave your comment" outlined v-model="comment.comment"></v-textarea>
       <v-card-text class="d-flex justify-end">
         <v-spacer></v-spacer>
         <v-btn @click="closeCommentModal()" color="pink darken-1">

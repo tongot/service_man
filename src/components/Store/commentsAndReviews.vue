@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card flat>
       <v-card-title>
         Our business reviews
         <v-spacer></v-spacer>

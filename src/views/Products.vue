@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col :class="content">
-        <v-toolbar class="mb-2">
+        <v-toolbar flat class="mb-2">
           <v-app-bar-nav-icon @click="showSideBar()"></v-app-bar-nav-icon>
           <v-toolbar-title>Products</v-toolbar-title>
         </v-toolbar>
@@ -11,7 +11,7 @@
         </div>
       </v-col>
       <div :class="sidebar">
-        <v-card>
+        <v-card outlined>
           <v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
             <v-card-title class="white--text">Product Categories</v-card-title>
           </v-img>
@@ -22,7 +22,9 @@
                   <v-list-item-icon>
                     <v-icon>mdi-ungroup</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-content class="text-capitalize caption">{{prod.name}}</v-list-item-content>
+                  <v-list-item-content class="text-capitalize caption">{{
+                    prod.name
+                  }}</v-list-item-content>
                   <v-list-item-action>
                     <input type="checkbox" @change="setSearch(prod)" v-model="prod.selected" />
                   </v-list-item-action>
@@ -36,38 +38,38 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 export default {
   data: () => ({
-    sidebar: "sidebar-leave",
-    content: "content-leave",
-    hidcontent: "",
-    categories: []
+    sidebar: 'sidebar-leave',
+    content: 'content-leave',
+    hidcontent: '',
+    categories: [],
   }),
   methods: {
-    ...mapActions(["getBusinessCategory", "getProductCategory", "addToSearch"]),
+    ...mapActions(['getBusinessCategory', 'getProductCategory', 'addToSearch']),
     setSearch(category) {
       this.addToSearch(category);
     },
     showSideBar() {
-      if (this.sidebar == "sidebar") {
-        this.sidebar = "sidebar-leave";
-        this.content = "content-leave";
-        this.hidcontent = "";
+      if (this.sidebar == 'sidebar') {
+        this.sidebar = 'sidebar-leave';
+        this.content = 'content-leave';
+        this.hidcontent = '';
       } else {
-        this.content = "content";
-        this.sidebar = "sidebar";
-        this.hidcontent = "hid-content";
+        this.content = 'content';
+        this.sidebar = 'sidebar';
+        this.hidcontent = 'hid-content';
       }
-    }
+    },
   },
-  computed: mapGetters(["get_businessCategory", "get_productCategory"]),
+  computed: mapGetters(['get_businessCategory', 'get_productCategory']),
   mounted() {
     this.getBusinessCategory();
-    this.getProductCategory().then(data => {
+    this.getProductCategory().then((data) => {
       this.categories = data;
     });
-  }
+  },
 };
 </script>
 <style scoped>

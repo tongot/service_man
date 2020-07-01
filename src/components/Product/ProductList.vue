@@ -1,21 +1,23 @@
 <template>
   <v-card flat class="mt-0">
-    <!--
-  modal to view the product details
-    -->
-    <!-- main view for the list of the products-->
-    <v-chip
-      pill
-      :color="search.selected?'blue':''"
-      :class="search.selected?'pa-1 ma-1 white--text':'pa-1 ma-1'"
-      v-for="search in get_productCategory"
-      :key="search.id"
-      @click="setSearch(search)"
-    >{{ search.name }}</v-chip>
-
-    <v-toolbar height="60px" flat>
+    <v-divider></v-divider>
+    <div class="div-overflow">
+      <v-chip
+        pill
+        :color="search.selected ? 'blue' : ''"
+        :class="search.selected ? 'pa-1 ma-1 white--text' : 'pa-1 ma-1'"
+        v-for="search in get_productCategory"
+        :key="search.id"
+        @click="setSearch(search)"
+        >{{ search.name }}</v-chip
+      >
+    </div>
+    <v-divider></v-divider>
+    <v-toolbar flat class="mt-5">
       <v-spacer></v-spacer>
       <v-text-field
+        outlined
+        class="mt-5"
         :rules="[rules.required]"
         prepend-inner-icon="mdi-magnify"
         placeholder="Search any descriptive word"
@@ -23,12 +25,18 @@
         @keyup.enter="searching()"
         @keyup="clearSearch()"
       ></v-text-field>
-      <v-btn @click="searching()" depressed class="ml-2">search</v-btn>
+      <v-btn fab @click="searching()" depressed class="ml-2 primary">
+        <v-icon>
+          mdi-magnify
+        </v-icon>
+      </v-btn>
     </v-toolbar>
 
-    <v-expansion-panels class="mt-12">
+    <v-expansion-panels flat class="mt-12">
       <v-expansion-panel>
-        <v-expansion-panel-header>More filters</v-expansion-panel-header>
+        <v-expansion-panel-header>
+          <span class="blue--text"><strong> CLICK FOR MORE FILTERS</strong></span>
+        </v-expansion-panel-header>
         <v-expansion-panel-content id="filters1">
           <v-row align="start" justify="space-around">
             <v-flex class="px-2" md4>
@@ -67,10 +75,20 @@
                 <p>Price</p>
                 <v-row>
                   <v-flex md6>
-                    <v-text-field placeholder="min price" class="px-2" v-model="minPrice"></v-text-field>
+                    <v-text-field
+                      placeholder="min price"
+                      class="px-2"
+                      v-model="minPrice"
+                      type="number"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex md6>
-                    <v-text-field placeholder="max price" class="px-2" v-model="maxPrice"></v-text-field>
+                    <v-text-field
+                      type="number"
+                      placeholder="max price"
+                      class="px-2"
+                      v-model="maxPrice"
+                    ></v-text-field>
                   </v-flex>
                 </v-row>
               </v-card>
@@ -118,7 +136,8 @@
                   }"
                   color="yellow darken-2"
                   @click="dialog = !dialog"
-                >more...</v-btn>
+                  >more...</v-btn
+                >
                 <v-spacer></v-spacer>
                 <v-btn icon color="primary" depressed>
                   <v-icon>mdi-cart</v-icon>
@@ -134,35 +153,32 @@
           </v-card>
         </template>
         <v-chip v-if="product.price_neg" class="ma-2" color="success" text-color="white">
-          <v-avatar left>
-            <v-icon>mdi-checkbox-marked-circle</v-icon>
-          </v-avatar>price negotiable
+          <v-avatar left> <v-icon>mdi-checkbox-marked-circle</v-icon> </v-avatar>price negotiable
         </v-chip>
         <v-chip v-if="!product.price_neg" class="ma-2" color="error" text-color="white">
-          <v-avatar left>
-            <v-icon>mdi-window-close</v-icon>
-          </v-avatar>price negotiable
+          <v-avatar left> <v-icon>mdi-window-close</v-icon> </v-avatar>price negotiable
         </v-chip>
         <v-chip v-if="product.product_new" class="ma-2" color="success" text-color="white">
-          <v-avatar left>
-            <v-icon>mdi-checkbox-marked-circle</v-icon>
-          </v-avatar>brand new
+          <v-avatar left> <v-icon>mdi-checkbox-marked-circle</v-icon> </v-avatar>brand new
         </v-chip>
         <v-chip v-if="!product.product_new" class="ma-2" color="error" text-color="white">
-          <v-avatar left>
-            <v-icon>mdi-window-close</v-icon>
-          </v-avatar>brand new
+          <v-avatar left> <v-icon>mdi-window-close</v-icon> </v-avatar>brand new
         </v-chip>
       </v-tooltip>
     </v-row>
     <v-row justify="center">
-      <v-pagination v-model="page" @input="getPage()" class="my-4" :length="pageCount"></v-pagination>
+      <v-pagination
+        v-model="page"
+        @input="getPage()"
+        class="my-4"
+        :length="pageCount"
+      ></v-pagination>
     </v-row>
   </v-card>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { GetCoverImage } from "../../scripts/otherScripts";
+import { mapGetters, mapActions } from 'vuex';
+import { GetCoverImage } from '../../scripts/otherScripts';
 export default {
   data: () => ({
     businessSelected: [],
@@ -173,42 +189,42 @@ export default {
     businesses: [],
     dialog: false,
     page: 1,
-    search: "",
+    search: '',
     location,
     minPrice: 0,
-    maxPrice: "",
+    maxPrice: '',
     searchValues: {
-      name: "",
+      name: '',
       page: null,
-      productCategory: []
+      productCategory: [],
     },
     rules: {
-      required: v => !!v || "provide a search text"
-    }
+      required: (v) => !!v || 'provide a search text',
+    },
   }),
   methods: {
     ...mapActions([
-      "getViewProducts",
-      "openMessageDialog",
-      "getBusinessById",
-      "notify",
-      "addToSearch",
-      "getLocations",
-      "getBusinessSearch",
-      "setSearchValue"
+      'getViewProducts',
+      'openMessageDialog',
+      'getBusinessById',
+      'notify',
+      'addToSearch',
+      'getLocations',
+      'getBusinessSearch',
+      'setSearchValue',
     ]),
     getCover(images) {
       if (images.length > 0) {
         return GetCoverImage(images);
       } else {
-        return require("../../../public/productDummy.png");
+        return require('../../../public/productDummy.png');
       }
     },
     contactSeller(businessId, productId) {
       this.notify({
-        text: "Requesting contact, please wait a bit...",
-        color: "warning",
-        open: true
+        text: 'Requesting contact, please wait a bit...',
+        color: 'warning',
+        open: true,
       });
       this.getBusinessById(businessId).then(() => {
         this.openMessageDialog(productId);
@@ -225,14 +241,14 @@ export default {
     },
     //reset search if texbox is empty
     clearSearch() {
-      if (this.search === "") {
-        this.setSearchValue("");
+      if (this.search === '') {
+        this.setSearchValue('');
         this.searchValues.page = 1;
         this.getProd();
       }
     },
     searching() {
-      if (this.search !== "" && this.search !== null) {
+      if (this.search !== '' && this.search !== null) {
         this.searchValues.page = 1;
         this.getProd();
       }
@@ -241,14 +257,12 @@ export default {
       this.businessSelected = [];
       this.businesses = [];
       this.loadingBusinesses = true;
-      this.getBusinessSearch({ search: this.location, category: "" }).then(
-        data => {
-          data.results.forEach(element => {
-            this.businesses.push(element.name + "," + element.id);
-          });
-          this.loadingBusinesses = false;
-        }
-      );
+      this.getBusinessSearch({ search: this.location, category: '' }).then((data) => {
+        data.results.forEach((element) => {
+          this.businesses.push(element.name + ',' + element.id);
+        });
+        this.loadingBusinesses = false;
+      });
     },
 
     searchFilter() {
@@ -257,8 +271,8 @@ export default {
     getProd() {
       let businesses = [];
       if (this.businessSelected.length > 0) {
-        this.businessSelected.forEach(element => {
-          let val = element.split(",");
+        this.businessSelected.forEach((element) => {
+          let val = element.split(',');
           businesses.push(val[1]);
         });
       }
@@ -266,36 +280,32 @@ export default {
       this.getViewProducts({
         number: this.page,
         search: this.search,
-        productCategory: this.get_productCategory.filter(
-          item => item.selected === true
-        ),
+        productCategory: this.get_productCategory.filter((item) => item.selected === true),
         businesses: businesses,
         maxPrice: this.maxPrice,
-        minPrice: this.minPrice
+        minPrice: this.minPrice,
       });
     },
     resetFilters() {
       this.page = 1;
-      this.search = "";
-      this.maxPrice = "";
+      this.search = '';
+      this.maxPrice = '';
       this.minPrice = 0;
       this.businessSelected = [];
       this.getProd();
-    }
+    },
   },
   computed: {
     ...mapGetters([
-      "get_view_products",
-      "get_productCategory",
-      "get_locations",
-      "get_search_business",
-      "get_search_value"
+      'get_view_products',
+      'get_productCategory',
+      'get_locations',
+      'get_search_business',
+      'get_search_value',
     ]),
     pageCount() {
-      return this.get_view_products.count > 0
-        ? Math.ceil(this.get_view_products.count / 10)
-        : 0;
-    }
+      return this.get_view_products.count > 0 ? Math.ceil(this.get_view_products.count / 10) : 0;
+    },
   },
   created() {
     this.search = this.get_search_value;
@@ -304,15 +314,15 @@ export default {
   mounted() {
     this.getLocations();
     this.loadingBusinesses = true;
-    this.getBusinessSearch({ search: this.location, category: "" }).then(
-      data => {
-        data.results.forEach(element => {
-          this.businesses.push(element.name + "," + element.id);
+    this.getBusinessSearch({ page: 1, search: this.location, category: '' }).then((data) => {
+      if (data != null) {
+        data.results.forEach((element) => {
+          this.businesses.push(element.name + ',' + element.id);
         });
-        this.loadingBusinesses = false;
       }
-    );
-  }
+      this.loadingBusinesses = false;
+    });
+  },
 };
 </script>
 <style scoped>

@@ -1,8 +1,9 @@
 <template>
   <v-row>
     <v-col cols="12" md="6" sm="12">
-      <v-card style="background: rgba(0,0,0,.5);" class="mx-auto" width="400">
+      <v-card class="mx-auto" raised elevation="16" width="400">
         <v-row justify="center">
+          <v-btn class="mt-5 primary--text" text :to="{name:'store-products'}">go to products</v-btn>
           <v-col>
             <v-img width="300" class="mx-auto" height="300" :src="get_business.business_logo"></v-img>
           </v-col>
@@ -29,10 +30,10 @@
       </v-card>
     </v-col>
     <v-col cols="12" md="6" sm="12">
-      <v-card style="background: rgba(0,0,0,.5);" class="mx-auto" max-width="700">
+      <v-card flat class="mx-auto" max-width="700">
         <v-row>
           <v-col>
-            <v-card style="background: rgba(0,0,0,0);" flat class="mx-4">
+            <v-card flat class="mx-4">
               <div>
                 <h4 class="grey--text font-weight-light display-2">
                   Welcome
@@ -55,16 +56,13 @@
                     v-for="contact in get_business.contact_person"
                     :key="contact.id"
                     max-width="344"
-                    style="background: rgba(0,0,0,0);"
                     class="ma-1"
                     outlined
                   >
                     <v-list-item two-line>
                       <v-list-item-content>
-                        <div
-                          class="overline mb-4 white--text"
-                        >{{contact.first_name+" "+contact.last_name }}</div>
-                        <v-list-item-subtitle class="white--text">
+                        <div class="overline mb-4">{{contact.first_name+" "+contact.last_name }}</div>
+                        <v-list-item-subtitle>
                           <span>
                             <v-icon></v-icon>
                           </span>

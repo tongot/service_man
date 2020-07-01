@@ -1,18 +1,18 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <v-col sm="12" md="4">
-        <v-card class="d-flex pa-2" width="500">
-          <v-text-field
-            outlined
-            class="white--text"
-            prepend-inner-icon="mdi-magnify"
-            placeholder="Search any descriptive word"
-            v-model="search.search"
-          ></v-text-field>
-          <v-btn @click="getProducts()" depressed class="ml-2 my-2">search</v-btn>
-        </v-card>
-      </v-col>
+      <v-card flat class="d-flex pa-2" width="500">
+        <v-text-field
+          outlined
+          class="white--text"
+          prepend-inner-icon="mdi-magnify"
+          placeholder="Search any descriptive word"
+          v-model="search.search"
+        ></v-text-field>
+        <v-btn @click="getProducts()" fab depressed class="ml-2">
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </v-card>
     </v-row>
     <v-row justify="space-around">
       <v-hover
