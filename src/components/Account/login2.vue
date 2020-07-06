@@ -1,6 +1,29 @@
 <template>
   <div>
     <v-row>
+      <v-dialog v-model="dialog" width="400" persistent>
+        <v-card>
+          <v-card-title>
+            <v-spacer></v-spacer>
+            <v-btn color="red" icon @click="closeReset">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="formForgotEmail">
+              <v-text-field
+                outlined
+                placeholder="Enter you registered email"
+                v-model="forgotEmail"
+                :rules="[rules.required,rules.email]"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn :loading="loadingEmail">Send reset</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-col md="6" sm="12" cols="12" class="picture-container">
         <div class="side-pic"></div>
         <h4 class="white--text font-weight-thin display-4 header1">Tshwaragano</h4>
@@ -13,7 +36,7 @@
                 <v-icon class="display-3 white--text">mdi-account</v-icon>
               </v-avatar>
             </div>
-            <v-alert v-if="errors.text.length>0" :type="errors.type">{{ errors.text }}</v-alert>
+            <v-alert v-if="get_login_error!=''" type="error">{{get_login_error }}</v-alert>
             <v-text-field
               prepend-icon="mdi-email"
               label="Email"
@@ -40,6 +63,7 @@
               </v-btn>
             </v-flex>
             <v-card-actions>
+              <!-- <v-btn small color="pink darken-1" @click="dialog=!dialog" text>Forgot password</v-btn> -->
               <v-spacer></v-spacer>
               <v-btn small :to="{name:'register'}" text>Sign up</v-btn>
             </v-card-actions>
@@ -51,9 +75,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+//import axios from 'axios';
 export default {
   data: () => ({
+    dialog: false,
+    forgotEmail: "",
+    loadingEmail: false,
     user: {
       username: "",
       password: ""
@@ -64,36 +92,37 @@ export default {
     },
     loading: false,
     rules: {
-      required: v => !!v || "this field is required"
+      required: v => !!v || "this field is required",
+      email: value => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "Invalid e-mail.";
+      }
     }
   }),
   methods: {
-    ...mapActions(["login", "getUserDetails"]),
+    ...mapActions(["login"]),
     async postLogin() {
-      if (this.$refs.login.validate()) {
-        this.loading = true;
-        let data;
-        data = await this.login(this.user);
-        try {
-          if (data.status == "400") {
-            this.errors.text = "Incorrect password or email";
-            this.errors.type = "error";
-          }
-          if (data.status == "200") {
-            this.$router.push({ name: "home" });
-            setTimeout(() => {
-              location.reload();
-            }, 500);
-          }
-          this.loading = false;
-        } catch {
-          this.errors.text = "FAID TO CONNETCT";
-          this.errors.type = "error";
-          this.loading = false;
-        }
-      }
+      this.loading = true;
+      this.login(this.user).then(() => {
+        this.loading = false;
+      });
+    },
+    closeReset() {
+      this.forgotEmail = "";
+      this.dialog = !this.dialog;
     }
-  }
+    /* resetPassword() {
+      if(this.$refs.formForgotEmail.validate){
+        this.loadingEmail= true;
+axios.post('/account_api/forgot-password',{
+  user :this.forgotEmail
+}).then((response)=>{
+
+})
+      }
+    }*/
+  },
+  computed: mapGetters(["get_login_error"])
 };
 </script>
 <style>

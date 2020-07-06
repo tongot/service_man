@@ -157,9 +157,7 @@ export default {
         data = await this.Register(this.register_user);
         try {
           if (data.status == "201") {
-            this.errors.text.push("Thank you for registering");
-            this.errors.type = "success";
-            this.loadingRegister = false;
+            this.$router.push({ name: "confirm-email" });
             return;
           }
           if (data.status == "400") {

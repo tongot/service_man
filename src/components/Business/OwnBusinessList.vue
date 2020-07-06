@@ -9,16 +9,24 @@
         <v-chip>{{bus.category_detail.name}}</v-chip>
         <v-spacer></v-spacer>
         <v-btn
-          text
+          :to="{name:'business-orders',params:{businessId:bus.id}}"
+          depressed
+          color="purple"
+          small
+          class="mr-1 white--text"
+        >orders</v-btn>
+        <v-btn
           :to="{name:'own-product-list', params:{businessId:bus.id}}"
           depressed
           small
           color="success"
+          class="mr-1"
         >View Products</v-btn>
         <v-btn
           :to="{name:'product-new', params:{businessId:bus.id}}"
           depressed
           small
+          class="mr-1"
           color="primary"
         >Add product</v-btn>
         <v-btn icon color="green darken-1" :to="{name:'business-edit',params:{businessId:bus.id}}">

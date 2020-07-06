@@ -15,7 +15,13 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <h4 class="d-none d-sm-flex d-sm-none d-md-flex" v-if="get_user!=null">{{get_user.email}}</h4>
+      <v-btn
+        :to="{name:'account-detail'}"
+        class="d-none d-sm-flex d-sm-none d-md-flex"
+        text
+        small
+        v-if="get_user!=null"
+      >{{get_user.email}}</v-btn>
       <v-btn text :to="{name:'login'}" v-if="get_user==null">Signin</v-btn>
       <v-btn @click="user_logout()" text v-if="get_user!=null">Signout</v-btn>
 
@@ -34,7 +40,7 @@
 
         <v-list>
           <v-list-item-group>
-            <v-list-item class="mb-2" v-if="get_user!=null">
+            <v-list-item :to="{name:'account-detail'}" class="mb-2" v-if="get_user!=null">
               <v-avatar color="primary">
                 <span class="white--text text-uppercase">{{get_user.name[0]}}{{get_user.surname[0]}}</span>
               </v-avatar>

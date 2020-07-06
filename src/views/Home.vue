@@ -1,10 +1,10 @@
 <template>
   <v-card flat class="mt-5">
     <v-row justify="center" class="mt-5">
-      <v-chip class="mt-5 pa-2" color="primary lighten-3">
+      <v-chip large class="mt-5 pa-2" color="white">
         <div class="div-overflow">
           <span v-for="(pcategory,i) in listOfCategories" :key="i">
-            <v-chip class="text-capitalize">{{pcategory.category.name}}</v-chip>
+            <v-chip>{{pcategory.category.name}}</v-chip>
           </span>
         </div>
       </v-chip>
@@ -39,13 +39,18 @@
       <v-row justify="center">
         <v-col cols="10">
           <v-card color="grey--text" class="pa-2" elevation="6">
-            <v-card-title>Top rated sellers</v-card-title>
-            <v-card width="300" elevation="12">
-              <v-img aspect-ratio="1" src="../../public/productDummy.png"></v-img>
-            </v-card>
+            <v-carousel>
+              <v-carousel-item
+                v-for="(item,i) in items"
+                :key="i"
+                :src="item.src"
+                reverse-transition="fade-transition"
+                transition="fade-transition"
+              ></v-carousel-item>
+            </v-carousel>
           </v-card>
         </v-col>
-
+        <!--
         <v-col cols="10" v-for="(category,index) in listOfCategories" :key="category.id">
           <v-card color="grey--text" class="pa-2" elevation="6">
             <v-card-title>{{category.category.name}}</v-card-title>
@@ -86,6 +91,7 @@
             </v-card-text>
           </v-card>
         </v-col>
+        -->
       </v-row>
     </v-img>
   </v-card>

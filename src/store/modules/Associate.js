@@ -47,9 +47,9 @@ const actions = {
   },
   async getBusinessSearch({ commit }, search) {
     let response;
-    //get selected categories
+    // get selected categories
     let categories = state.businessCategory.filter((item) => item.selected === true);
-    //get ids
+    // get ids
     let id = [];
     categories.forEach((element) => {
       id.push(element.id);
@@ -57,12 +57,7 @@ const actions = {
     id = id.length > 0 ? id.join() : '';
     try {
       response = await axios.get(
-        '/business_api/business/?page=' +
-          search.page +
-          '&search=' +
-          search.search +
-          '&businessCategory=' +
-          id
+        '/business_api/business/?page=' + search.page + '&search=' + search.search + '&businessCategory=' + id
       );
     } catch {
       response = null;

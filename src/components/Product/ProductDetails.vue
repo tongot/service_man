@@ -139,15 +139,16 @@
         </v-row>
       </v-col>
       <v-col cols="12" md="3" sm="12">
-        <v-card class="pa-2" width="300" flat>
+        payment online comming soon
+        <!-- <v-card class="pa-2" width="300" flat>
           <v-card-title>
             Buy Now
             <v-spacer></v-spacer>
             <v-icon>mdi-cart</v-icon>
           </v-card-title>
-          <!--paypal button containre-->
+         paypal button containre
           <div style="position:relative;" id="paypal-button-container"></div>
-        </v-card>
+        </v-card>-->
       </v-col>
     </v-row>
   </v-container>
