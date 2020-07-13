@@ -11,6 +11,7 @@ const state = {
   loginError: '',
   from: '',
   email_dialog: false,
+  loadingLogin: false,
 };
 const getters = {
   get_user: (state) => state.user,
@@ -21,6 +22,7 @@ const getters = {
   get_login_error: (state) => state.loginError,
   get_email_dialog: (state) => state.email_dialog,
   get_from: (state) => state.from,
+  get_loading_login: (state) => state.loadingLogin,
 };
 const actions = {
   setEmailDialog() {
@@ -79,6 +81,7 @@ const actions = {
   async login({ commit }, data) {
     state.loginError = '';
     let proceed = false;
+    state.loadingLogin = true;
     axios
       .post('/account_api/log_in/', {
         email: data.username,
@@ -90,10 +93,12 @@ const actions = {
             if (state.from == 'change-email') {
               commit('set_email_dialog', true);
               state.dialog_login = !state.dialog_login;
+              state.loadingLogin = false;
               return;
             }
             proceed = true;
             localStorage.setItem('action', response.data.token);
+            state.loadingLogin = false;
           }
         },
         (e) => {
@@ -104,6 +109,7 @@ const actions = {
             commit('set_confirm_email', data.username);
             router.push({ name: 'confirm-email' });
           }
+          state.loadingLogin = false;
         }
       )
       .then(() => {

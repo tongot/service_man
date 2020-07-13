@@ -2,6 +2,9 @@
   <v-card flat class="ma-4 pa-1">
     <div fluid>
       <v-row class="justify-space-around align-start">
+        <v-overlay :value="get_business_loading">
+          <v-progress-circular indeterminate size="60"></v-progress-circular>
+        </v-overlay>
         <v-hover
           v-slot:default="{ hover }"
           v-for="business in get_search_business.results"
@@ -45,38 +48,33 @@
         </v-hover>
       </v-row>
       <v-row justify="center">
-        <v-pagination
-          v-model="page"
-          @input="getPage()"
-          class="my-4"
-          :length="pageCount"
-        ></v-pagination>
+        <v-pagination v-model="page" @input="getPage()" class="my-4" :length="pageCount"></v-pagination>
       </v-row>
     </div>
   </v-card>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 export default {
-  name: 'business_list',
+  name: "business_list",
   data: () => ({
     postLoading: false,
     dialog_rate: false,
-    page: 1,
+    page: 1
   }),
   methods: {
     ...mapActions([
-      'getBusinessSearch',
-      'showLogIn',
-      'postRating',
-      'openRatingDialog',
-      'showLogIn',
-      'setBusinessSearchValue',
+      "getBusinessSearch",
+      "showLogIn",
+      "postRating",
+      "openRatingDialog",
+      "showLogIn",
+      "setBusinessSearchValue"
     ]),
     gotoBusiness(businessId) {
       this.$router.push({
-        name: 'store-home',
-        params: { businessId: businessId },
+        name: "store-home",
+        params: { businessId: businessId }
       });
     },
     openModalRate(id) {
@@ -88,7 +86,7 @@ export default {
     },
     getLogo(logo) {
       if (logo === null) {
-        return require('../../../public/productDummy.png');
+        return require("../../../public/productDummy.png");
       }
       return logo;
     },
@@ -96,26 +94,27 @@ export default {
       this.getBusinessSearch({
         page: this.page,
         search: this.get_business_search_value,
-        categories: '',
+        categories: ""
       });
-    },
+    }
   },
   computed: {
     ...mapGetters([
-      'get_search_business',
-      'get_locations',
-      'get_user',
-      'get_business_search_value',
+      "get_search_business",
+      "get_locations",
+      "get_user",
+      "get_business_search_value",
+      "get_business_loading"
     ]),
     pageCount() {
       return this.get_search_business.count > 0
         ? Math.ceil(this.get_search_business.count / 10)
         : 0;
-    },
+    }
   },
   created() {
-    this.setBusinessSearchValue('');
-    this.getBusinessSearch({ page: 1, search: '', categories: '' });
-  },
+    this.setBusinessSearchValue("");
+    this.getBusinessSearch({ page: 1, search: "", categories: "" });
+  }
 };
 </script>

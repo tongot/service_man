@@ -108,6 +108,9 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-row class="justify-space-around">
+      <v-overlay :value="get_product_loading">
+        <v-progress-circular indeterminate size="60"></v-progress-circular>
+      </v-overlay>
       <v-tooltip top v-for="product in get_view_products.results" :key="product.id">
         <template v-slot:activator="{ on }">
           <v-card width="250" height="400" outlined class="ma-4" v-on="on">
@@ -182,6 +185,7 @@ import { mapGetters, mapActions } from "vuex";
 import { GetCoverImage } from "../../scripts/otherScripts";
 export default {
   data: () => ({
+    loadingProducts: true,
     businessSelected: [],
     loadingFilter: false,
     loadingFilterClear: false,
@@ -308,7 +312,8 @@ export default {
       "get_productCategory",
       "get_locations",
       "get_search_business",
-      "get_search_value"
+      "get_search_value",
+      "get_product_loading"
     ]),
     pageCount() {
       return this.get_view_products.count > 0

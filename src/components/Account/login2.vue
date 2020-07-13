@@ -54,7 +54,7 @@
               <v-btn
                 @click="postLogin"
                 depressed
-                :loading="loading"
+                :loading="get_loading_login"
                 :disabled="loading"
                 color="blue"
                 class="white--text"
@@ -122,7 +122,7 @@ axios.post('/account_api/forgot-password',{
       }
     }*/
   },
-  computed: mapGetters(["get_login_error"])
+  computed: mapGetters(["get_login_error", "get_loading_login"])
 };
 </script>
 <style>

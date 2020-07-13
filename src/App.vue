@@ -217,7 +217,7 @@ export default {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(255, 255, 255);
+  background: rgb(114, 114, 114);
   border-radius: 15px;
 }
 </style>

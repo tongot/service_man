@@ -10,6 +10,7 @@ const state = {
   businessCategorySearch: [],
   searchValue: '',
   businessSearchValue: '',
+  businessLoading: false,
 };
 const getters = {
   get_business_search_value: (state) => state.businessSearchValue,
@@ -21,6 +22,7 @@ const getters = {
   get_search_business: (state) => state.businessesSearch,
   get_search_categoryBusiness: (state) => state.businessCategorySearch,
   get_countries: (state) => state.countries,
+  get_business_loading: (state) => state.businessLoading,
 };
 const actions = {
   setBusinessSearchValue({ commit }, val) {
@@ -47,6 +49,7 @@ const actions = {
   },
   async getBusinessSearch({ commit }, search) {
     let response;
+    state.businessLoading = true;
     // get selected categories
     let categories = state.businessCategory.filter((item) => item.selected === true);
     // get ids
@@ -64,9 +67,10 @@ const actions = {
     }
     try {
       commit('set_search_business', response.data);
-
+      state.businessLoading = false;
       return await response.data;
     } catch (e) {
+      state.businessLoading = false;
       return response;
     }
   },
