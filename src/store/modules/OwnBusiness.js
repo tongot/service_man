@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const state = {
   ownBusiness: [],
@@ -11,19 +11,30 @@ const getters = {
 const actions = {
   async getOwnBusiness({ commit }) {
     try {
-      const response = await axios.get("/business_api/my-business");
-      commit("set_ownBusiness", response.data);
+      const response = await axios.get('/business_api/my-business');
+      commit('set_ownBusiness', response.data);
     } catch (e) {
-      console.log("error page");
+      console.log('error page');
+    }
+  },
+  async deleteBusiness({ commit }, businessId) {
+    const response = await axios.delete('/business_api/business/' + businessId);
+    try {
+      if (response.status === 204) {
+        actions.getOwnBusiness({ commit });
+        return await response.data;
+      }
+    } catch (e) {
+      console.log('error');
     }
   },
   async getBusinessById({ commit }, businessId) {
     try {
-      const response = await axios.get("/business_api/business/" + businessId);
-      commit("set_business", response.data);
+      const response = await axios.get('/business_api/business/' + businessId);
+      commit('set_business', response.data);
       return await response.data;
     } catch (e) {
-      console.log("error page");
+      console.log('error page');
     }
   },
 };

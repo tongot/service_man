@@ -1,5 +1,18 @@
  <template>
   <v-container>
+    <v-dialog width="400" v-model="deleteDialog">
+      <v-card>
+        <v-card-title>Delete Business</v-card-title>
+        <v-card-text>Are you sure you want to delete this business. Please not that all the associated products will be removed as well</v-card-text>
+        <v-card-actions>
+          <v-btn color="error" :loading="loadingDelete" @click="deleteBus()" depressed>
+            <v-icon left>mdi-delete</v-icon>Delete
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click="deleteDialog=!deleteDialog" color="success" depressed>Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-card class="pa-2 mb-2" v-for="bus in get_ownBusiness" :key="bus.id" outlined flat>
       <v-card-title>
         <v-btn text :to="{name:'about-business',params:{businessId:bus.id}}">
@@ -32,7 +45,7 @@
         <v-btn icon color="green darken-1" :to="{name:'business-edit',params:{businessId:bus.id}}">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon color="pink darken-1">
+        <v-btn icon @click="deleteB(bus.id)" color="pink darken-1">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-card-title>
@@ -133,11 +146,32 @@
 import { mapActions, mapGetters } from "vuex";
 import { formartDate } from "../../scripts/otherScripts";
 export default {
-  data: () => ({}),
+  data: () => ({
+    businessId: 0,
+    deleteDialog: false,
+    loadingDelete: false
+  }),
   methods: {
-    ...mapActions(["getOwnBusiness"]),
+    ...mapActions(["getOwnBusiness", "deleteBusiness", "notify"]),
     getDate(date) {
       return formartDate(date);
+    },
+    deleteB(id) {
+      this.businessId = id;
+      this.deleteDialog = true;
+    },
+    deleteBus() {
+      this.loadingDelete = true;
+      this.deleteBusiness(this.businessId).then(() => {
+        this.loadingDelete = false;
+        this.deleteDialog = false;
+        this.notify({
+          text: "Bussine deleted :)",
+          color: "success",
+          y: "bottom",
+          open: true
+        });
+      });
     }
   },
 
